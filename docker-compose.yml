@@ -4,17 +4,6 @@ networks:
   the-black-network:
 
 services:
-  nginx:
-    image: nginx:stable-alpine
-    container_name: nginx
-    ports:
-      - "8080:80"
-    volumes:
-      - ./backend:/var/www/html
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - the-black-network
-
   webapp:
     container_name: webapp
     stdin_open: true
@@ -25,8 +14,89 @@ services:
     image: the-black-webapp
     ports:
       - "3000:3000"
+    depends_on:
+      - nginx
     volumes:
       - ./webapp/src:/usr/src/app/src
       - /usr/src/app/node_modules
+    networks:
+      - the-black-network
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - the-black-network
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php
+    volumes:
+      - ./backend:/var/www/html
+    ports:
+      - "9000:9000"
+    networks:
+      - the-black-network
+
+  mysql:
+    image: mysql:5.7.29
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: the-black-db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - the-black-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8000:80
+    depends_on:
+      - mysql
+    environment:
+      - PMA_HOST=mysql
+    networks:
+      - the-black-network
+
+  composer:
+    image: composer:latest
+    container_name: composer
+    volumes:
+      - ./backend:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - php
+    networks:
+      - the-black-network
+
+  artisan:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: artisan
+    volumes:
+      - ./backend:/var/www/html
+    depends_on:
+      - mysql
+    working_dir: /var/www/html
+    entrypoint: ["/var/www/html/artisan"]
     networks:
       - the-black-network
