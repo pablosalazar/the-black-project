@@ -1,5 +1,5 @@
 import React from "react";
 
 export const App = () => {
-  return <div>Hello world form compenents</div>;
+  return <h1>Hello world from Docker</h1>;
 };

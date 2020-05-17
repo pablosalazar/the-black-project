@@ -12,6 +12,12 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx"],
   },
+  devServer: {
+    contentBase: path.join(__dirname, "dist"),
+    compress: true,
+    host: "0.0.0.0",
+    port: 3000,
+  },
   module: {
     rules: [
       {

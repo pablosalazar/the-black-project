@@ -1,0 +1,15 @@
+version: "3"
+services:
+  webapp:
+    container_name: webapp
+    stdin_open: true
+    tty: true
+    build:
+      context: ./webapp
+      dockerfile: Dockerfile
+    image: the-black-webapp
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./webapp/src:/usr/src/app/src
+      - /usr/src/app/node_modules
