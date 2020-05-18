@@ -1,5 +1,7 @@
-import React from "react";
+import React from 'react';
 
-export const App = () => {
-  return <h1>Hello world from Docker</h1>;
+const App = () => {
+  return <h1>Hello world from Docker :) :P</h1>;
 };
+
+export default App;
