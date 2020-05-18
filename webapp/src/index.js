@@ -1,6 +1,10 @@
-import React from 'react';
-import ReactDom from 'react-dom';
+import './assets/css/vendor/bootstrap.min.css';
 
-import App from './App';
+let render = () => {
+  import('./assets/css/sass/themes/gogo.dark.orange.scss').then((x) => {
+    require('./AppRenderer');
+  });
+};
 
-ReactDom.render(<App />, document.getElementById('app'));
+// require('./AppRenderer');
+render();

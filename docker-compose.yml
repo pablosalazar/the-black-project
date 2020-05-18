@@ -18,6 +18,7 @@ services:
       - nginx
     volumes:
       - ./webapp/src:/usr/src/app/src
+      - ./webapp/public:/usr/src/app/public
       - /usr/src/app/node_modules
     networks:
       - the-black-network
