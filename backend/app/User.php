@@ -33,7 +33,7 @@ class User extends Authenticatable
     ];
 
     protected $filters = [
-         'email', 'role'
+        'email', 'role'
     ];
 
     /**
@@ -54,11 +54,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static function validate($request, $user=null)
+    public static function validate($request, $user = null)
     {
-        $rules=[
-            'username' => $user ? 'required|unique:users,username,'.$user->id : 'required|unique:users',
-            'email' => $user ? 'required|email|unique:users,email,'.$user->id : 'required|email|unique:users',
+        $rules = [
+            'username' => $user ? 'required|unique:users,username,' . $user->id : 'required|unique:users',
+            'email' => $user ? 'required|email|unique:users,email,' . $user->id : 'required|email|unique:users',
             'password' => 'sometimes|required|min:6',
             'active' => 'required',
             'role' => 'required',
