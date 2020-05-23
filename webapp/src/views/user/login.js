@@ -13,8 +13,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'demo@gogo.com',
-      password: 'gogo123',
+      email: '',
+      password: '',
     };
   }
 
@@ -29,9 +29,7 @@ class Login extends Component {
   validateEmail = (value) => {
     let error;
     if (!value) {
-      error = 'Please enter your email address';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-      error = 'Invalid email address';
+      error = 'Este campo es obligatorio';
     }
     return error;
   };
@@ -39,7 +37,7 @@ class Login extends Component {
   validatePassword = (value) => {
     let error;
     if (!value) {
-      error = 'Please enter your password';
+      error = 'Este campo es obligatorio';
     } else if (value.length < 4) {
       error = 'Value must be longer than 3 characters';
     }
@@ -67,7 +65,7 @@ class Login extends Component {
       <Row className="h-100">
         <Colxx xxs="12" md="10" className="mx-auto my-auto">
           <Card className="auth-card">
-            <div className="position-relative image-side ">
+            <div className="position-relative image-side d-none d-sm-block">
               <p className="text-white h2">THE BLACK PARKING SERVICE</p>
               <p className="white mb-0">
                 Por favor ingresa tus datos de acceso.
@@ -76,42 +74,45 @@ class Login extends Component {
             <div className="form-side">
               <NavLink to={`/`} className="white">
                 <span className="logo-single" />
+                <p className="text-white h2 mb-4 text-primary d-block d-sm-none">
+                  THE BLACK PARKING SERVICE
+                </p>
               </NavLink>
               <CardTitle className="mb-4">Iniciar sesión</CardTitle>
 
               <Formik initialValues={initialValues} onSubmit={this.onUserLogin}>
                 {({ errors, touched }) => (
-                  <Form className="av-tooltip tooltip-label-bottom">
-                    <FormGroup className="form-group has-float-label">
-                      <Label>Ingresa tu usuario o correo electrónico</Label>
+                  <Form className="av-tooltip tooltip-label-right">
+                    <FormGroup className="form-group error-l-200">
                       <Field
                         className="form-control"
                         name="email"
+                        placeholder="Usuario o correo electrónico"
                         validate={this.validateEmail}
                       />
                       {errors.email && touched.email && (
-                        <div className="invalid-feedback d-block">
+                        <div className="d-block text-danger">
                           {errors.email}
                         </div>
                       )}
                     </FormGroup>
-                    <FormGroup className="form-group has-float-label">
-                      <Label>Contraseña</Label>
+                    <FormGroup className="form-group">
                       <Field
                         className="form-control"
                         type="password"
                         name="password"
+                        placeholder="Contraseña"
                         validate={this.validatePassword}
                       />
                       {errors.password && touched.password && (
-                        <div className="invalid-feedback d-block">
+                        <div className="d-block text-danger">
                           {errors.password}
                         </div>
                       )}
                     </FormGroup>
-                    {/* <div className="d-flex justify-content-between align-items-center">
-                      <NavLink to={`/user/forgot-password`}>
-                        <IntlMessages id="user.forgot-password-question" />
+                    <div className="d-flex justify-content-between align-items-center">
+                      <NavLink to={`/user/olive-mi-contrasena`}>
+                        ¿Olvidó su contraseña?
                       </NavLink>
                       <Button
                         color="primary"
@@ -125,11 +126,9 @@ class Login extends Component {
                           <span className="bounce2" />
                           <span className="bounce3" />
                         </span>
-                        <span className="label">
-                          <IntlMessages id="user.login-button" />
-                        </span>
+                        <span className="label">ENTRAR</span>
                       </Button>
-                    </div> */}
+                    </div>
                   </Form>
                 )}
               </Formik>

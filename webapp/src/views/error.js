@@ -19,7 +19,7 @@ class Error extends Component {
             <Row className="h-100">
               <Colxx xxs="12" md="10" className="mx-auto my-auto">
                 <Card className="auth-card">
-                  <div className="position-relative image-side ">
+                  <div className="position-relative image-side d-none d-sm-block">
                     <p className="text-white font-weight-bold h2">THE BLACK</p>
                     <p className="text-white h4">VALET PARKING SERVICE</p>
                   </div>

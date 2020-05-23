@@ -6,9 +6,9 @@ const Login = React.lazy(() =>
   import(/* webpackChunkName: "user-login" */ './login')
 );
 
-// const ForgotPassword = React.lazy(() =>
-//   import(/* webpackChunkName: "user-forgot-password" */ './forgot-password')
-// );
+const ForgotPassword = React.lazy(() =>
+  import(/* webpackChunkName: "user-forgot-password" */ './forgot-password')
+);
 // const ResetPassword = React.lazy(() =>
 //   import(/* webpackChunkName: "user-reset-password" */ './reset-password')
 // );
@@ -23,12 +23,11 @@ const User = ({ match }) => {
             path={`${match.url}/login`}
             render={(props) => <Login {...props} />}
           />
-
-          {/* <Route
-            path={`${match.url}/forgot-password`}
+          <Route
+            path={`${match.url}/olive-mi-contrasena`}
             render={(props) => <ForgotPassword {...props} />}
           />
-          <Route
+          {/*<Route
             path={`${match.url}/reset-password`}
             render={(props) => <ResetPassword {...props} />}
           /> */}
