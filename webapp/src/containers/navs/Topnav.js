@@ -203,13 +203,10 @@ class TopNav extends Component {
           </NavLink>
 
           <div className="position-relative d-none d-none d-lg-inline-block align-items-center">
-            {/* <a
-              className="btn btn-outline-primary btn-sm ml-2"
-              target="_top"
-              href="https://themeforest.net/cart/configure_before_adding/22544383?license=regular&ref=ColoredStrategies&size=source"
-            >
-              Action
-            </a> */}
+            <div>
+              <h3 className="mb-0 text-primary font-weight-bold">THE BLACK</h3>
+              VALET PARKING SERVICE
+            </div>
           </div>
         </div>
         <a className="navbar-logo" href="/">

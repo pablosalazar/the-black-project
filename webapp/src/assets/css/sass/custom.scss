@@ -9,6 +9,9 @@
   .logo {
     background-size: contain;
   }
+  @include respond-below(xxs) {
+    width: 40px;
+  }
 }
 
 // .search-sm input {
