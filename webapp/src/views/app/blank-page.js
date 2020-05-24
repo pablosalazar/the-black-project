@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Row } from 'reactstrap';
 import { Colxx, Separator } from '../../components/common/CustomBootstrap';
-// import Breadcrumb from '../../containers/navs/Breadcrumb';
+import Breadcrumb from '../../containers/navs/Breadcrumb';
 
 export default class BlankPage extends Component {
   render() {
@@ -9,7 +9,7 @@ export default class BlankPage extends Component {
       <Fragment>
         <Row>
           <Colxx xxs="12">
-            {/* <Breadcrumb heading="menu.blank-page" match={this.props.match} /> */}
+            <Breadcrumb heading="Blank Page" match={this.props.match} />
             <Separator className="mb-5" />
           </Colxx>
         </Row>

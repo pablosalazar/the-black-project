@@ -1,15 +1,17 @@
-import React, { Fragment } from "react";
-import { Breadcrumb, BreadcrumbItem } from "reactstrap";
-import { NavLink } from "react-router-dom";
-import IntlMessages from "../../helpers/IntlMessages";
+import React, { Fragment } from 'react';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
-const getMenuTitle = sub => {
-  return <IntlMessages id={`menu.${sub}`} />;
+const getMenuTitle = (sub) => {
+  return sub
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
 };
 
 const getUrl = (path, sub, index) => {
   if (index === 0) {
-    return "";
+    return '';
   } else {
     return path.split(sub)[0] + sub;
   }
@@ -18,7 +20,7 @@ const getUrl = (path, sub, index) => {
 const BreadcrumbContainer = ({ heading, match }) => {
   return (
     <Fragment>
-      {heading && <h1><IntlMessages id={heading}/></h1>}
+      <h1>{heading}</h1>
       <BreadcrumbItems match={match} />
     </Fragment>
   );
@@ -26,9 +28,9 @@ const BreadcrumbContainer = ({ heading, match }) => {
 
 export const BreadcrumbItems = ({ match }) => {
   const path = match.path.substr(1);
-  let paths = path.split("/");
-  if (paths[paths.length - 1].indexOf(":") > -1) {
-    paths = paths.filter(x => x.indexOf(":") === -1);
+  let paths = path.split('/');
+  if (paths[paths.length - 1].indexOf(':') > -1) {
+    paths = paths.filter((x) => x.indexOf(':') === -1);
   }
   return (
     <Fragment>
@@ -37,11 +39,11 @@ export const BreadcrumbItems = ({ match }) => {
           return (
             <BreadcrumbItem key={index} active={paths.length === index + 1}>
               {paths.length !== index + 1 ? (
-                <NavLink to={"/" + getUrl(path, sub, index)}>
+                <NavLink to={'/' + getUrl(path, sub, index)}>
                   {getMenuTitle(sub)}
                 </NavLink>
               ) : (
-                getMenuTitle(sub)
+                <span>{getMenuTitle(sub)}</span>
               )}
             </BreadcrumbItem>
           );
