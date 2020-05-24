@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import TopNav from '../containers/navs/Topnav';
-// import Sidebar from '../containers/navs/Sidebar';
-// import Footer from '../containers/navs/Footer';
+import Sidebar from '../containers/navs/Sidebar';
+import Footer from '../containers/navs/Footer';
 
 class AppLayout extends Component {
   render() {
@@ -12,11 +12,11 @@ class AppLayout extends Component {
     return (
       <div id="app-container" className={containerClassnames}>
         <TopNav history={this.props.history} />
-        {/* <Sidebar />
+        <Sidebar />
         <main>
           <div className="container-fluid">{this.props.children}</div>
         </main>
-        <Footer /> */}
+        <Footer />
       </div>
     );
   }

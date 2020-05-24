@@ -1,42 +1,60 @@
 const data = [
   {
-    id: "gogo",
-    icon: "iconsminds-air-balloon-1",
-    label: "menu.gogo",
-    to: "/app/gogo",
+    id: 'servicios',
+    icon: 'iconsminds-gaugage',
+    label: 'Servicios',
+    to: '/servicios-de-parqueo',
+  },
+  {
+    id: 'reportes',
+    icon: 'iconsminds-pie-chart-3',
+    label: 'Reportes',
+    to: 'https://gogo-react-docs.coloredstrategies.com/',
     subs: [
       {
-        icon: "simple-icon-paper-plane",
-        label: "menu.start",
-        to: "/app/gogo/start"
-      }     
-    ]
-  },
-  {
-    id: "secondmenu",
-    icon: "iconsminds-three-arrow-fork",
-    label: "menu.second-menu",
-    to: "/app/second-menu",
-    subs: [
+        icon: 'iconsminds-bar-chart-4',
+        label: 'Reporte 1',
+        to: '/app/gogo/start',
+      },
       {
-        icon: "simple-icon-paper-plane",
-        label: "menu.second",
-        to: "/app/second-menu/second"
-      }
-    ]
+        icon: 'iconsminds-bar-chart-4',
+        label: 'Reporte 2',
+        to: '/app/gogo/start',
+      },
+      {
+        icon: 'iconsminds-bar-chart-4',
+        label: 'Reporte 3',
+        to: '/app/gogo/start',
+      },
+      {
+        icon: 'iconsminds-bar-chart-4',
+        label: 'Reporte 4',
+        to: '/app/gogo/start',
+      },
+      {
+        icon: 'iconsminds-bar-chart-4',
+        label: 'Reporte 5',
+        to: '/app/gogo/start',
+      },
+    ],
   },
   {
-    id: "blankpage",
-    icon: "iconsminds-bucket",
-    label: "menu.blank-page",
-    to: "/app/blank-page"
+    id: 'vehiculos',
+    icon: 'iconsminds-car',
+    label: 'Vehículos',
+    to: '/vehiculos',
   },
   {
-    id: "docs",
-    icon: "iconsminds-library",
-    label: "menu.docs",
-    to: "https://gogo-react-docs.coloredstrategies.com/",
-    newWindow:true
-  }
+    id: 'clientes',
+    icon: 'iconsminds-male-female',
+    label: 'Clientes',
+    to: '/clientes',
+  },
+  {
+    id: 'empleados',
+    icon: 'iconsminds-business-mens',
+    label: 'Empleados',
+    to: '/empleados',
+  },
 ];
 export default data;

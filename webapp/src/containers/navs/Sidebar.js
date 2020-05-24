@@ -7,13 +7,11 @@ import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { withRouter } from 'react-router-dom';
 
-import IntlMessages from '../../helpers/IntlMessages';
-
 import {
   setContainerClassnames,
   addContainerClassname,
   changeDefaultClassnames,
-  changeSelectedMenuHasSubItems
+  changeSelectedMenuHasSubItems,
 } from '../../redux/actions';
 
 import menuItems from '../../constants/menu';
@@ -24,11 +22,11 @@ class Sidebar extends Component {
     this.state = {
       selectedParentMenu: '',
       viewingParentMenu: '',
-      collapsedMenus: []
+      collapsedMenus: [],
     };
   }
 
-  handleWindowResize = event => {
+  handleWindowResize = (event) => {
     if (event && !event.isTrusted) {
       return;
     }
@@ -41,7 +39,7 @@ class Sidebar extends Component {
     );
   };
 
-  handleDocumentClick = e => {
+  handleDocumentClick = (e) => {
     const container = this.getContainer();
     let isMenuClick = false;
     if (
@@ -73,19 +71,19 @@ class Sidebar extends Component {
       return;
     }
     this.setState({
-      viewingParentMenu: ''
+      viewingParentMenu: '',
     });
     this.toggle();
   };
 
-  getMenuClassesForResize = classes => {
+  getMenuClassesForResize = (classes) => {
     const { menuHiddenBreakpoint, subHiddenBreakpoint } = this.props;
-    let nextClasses = classes.split(' ').filter(x => x !== '');
+    let nextClasses = classes.split(' ').filter((x) => x !== '');
     const windowWidth = window.innerWidth;
     if (windowWidth < menuHiddenBreakpoint) {
       nextClasses.push('menu-mobile');
     } else if (windowWidth < subHiddenBreakpoint) {
-      nextClasses = nextClasses.filter(x => x !== 'menu-mobile');
+      nextClasses = nextClasses.filter((x) => x !== 'menu-mobile');
       if (
         nextClasses.includes('menu-default') &&
         !nextClasses.includes('menu-sub-hidden')
@@ -93,12 +91,12 @@ class Sidebar extends Component {
         nextClasses.push('menu-sub-hidden');
       }
     } else {
-      nextClasses = nextClasses.filter(x => x !== 'menu-mobile');
+      nextClasses = nextClasses.filter((x) => x !== 'menu-mobile');
       if (
         nextClasses.includes('menu-default') &&
         nextClasses.includes('menu-sub-hidden')
       ) {
-        nextClasses = nextClasses.filter(x => x !== 'menu-sub-hidden');
+        nextClasses = nextClasses.filter((x) => x !== 'menu-sub-hidden');
       }
     }
     return nextClasses;
@@ -113,7 +111,7 @@ class Sidebar extends Component {
     this.props.changeSelectedMenuHasSubItems(hasSubItems);
     const { containerClassnames, menuClickCount } = this.props;
     const currentClasses = containerClassnames
-      ? containerClassnames.split(' ').filter(x => x !== '')
+      ? containerClassnames.split(' ').filter((x) => x !== '')
       : '';
     let clickIndex = -1;
 
@@ -158,18 +156,18 @@ class Sidebar extends Component {
   };
 
   addEvents = () => {
-    ['click', 'touchstart', 'touchend'].forEach(event =>
+    ['click', 'touchstart', 'touchend'].forEach((event) =>
       document.addEventListener(event, this.handleDocumentClick, true)
     );
   };
 
   removeEvents = () => {
-    ['click', 'touchstart', 'touchend'].forEach(event =>
+    ['click', 'touchstart', 'touchend'].forEach((event) =>
       document.removeEventListener(event, this.handleDocumentClick, true)
     );
   };
 
-  setSelectedLiActive = callback => {
+  setSelectedLiActive = (callback) => {
     const oldli = document.querySelector('.sub-menu  li.active');
     if (oldli != null) {
       oldli.classList.remove('active');
@@ -181,7 +179,9 @@ class Sidebar extends Component {
     }
 
     /* set selected parent menu */
-    const selectedSublink = document.querySelector('.third-level-menu  a.active');
+    const selectedSublink = document.querySelector(
+      '.third-level-menu  a.active'
+    );
     if (selectedSublink != null) {
       selectedSublink.parentElement.classList.add('active');
     }
@@ -193,7 +193,7 @@ class Sidebar extends Component {
         {
           selectedParentMenu: selectedlink.parentElement.parentElement.getAttribute(
             'data-parent'
-          )
+          ),
         },
         callback
       );
@@ -206,14 +206,14 @@ class Sidebar extends Component {
           {
             selectedParentMenu: selectedParentNoSubItem.getAttribute(
               'data-flag'
-            )
+            ),
           },
           callback
         );
       } else if (this.state.selectedParentMenu === '') {
         this.setState(
           {
-            selectedParentMenu: menuItems[0].id
+            selectedParentMenu: menuItems[0].id,
           },
           callback
         );
@@ -229,7 +229,7 @@ class Sidebar extends Component {
 
   getIsHasSubItem = () => {
     const { selectedParentMenu } = this.state;
-    const menuItem = menuItems.find(x => x.id === selectedParentMenu);
+    const menuItem = menuItems.find((x) => x.id === selectedParentMenu);
     if (menuItem)
       return menuItem && menuItem.subs && menuItem.subs.length > 0
         ? true
@@ -265,7 +265,7 @@ class Sidebar extends Component {
     if (!hasSubMenu) {
       this.setState({
         viewingParentMenu: selectedParent,
-        selectedParentMenu: selectedParent
+        selectedParentMenu: selectedParent,
       });
       this.toggle();
     } else {
@@ -273,7 +273,7 @@ class Sidebar extends Component {
 
       const { containerClassnames, menuClickCount } = this.props;
       const currentClasses = containerClassnames
-        ? containerClassnames.split(' ').filter(x => x !== '')
+        ? containerClassnames.split(' ').filter((x) => x !== '')
         : '';
 
       if (!currentClasses.includes('menu-mobile')) {
@@ -301,7 +301,7 @@ class Sidebar extends Component {
         );
       }
       this.setState({
-        viewingParentMenu: selectedParent
+        viewingParentMenu: selectedParent,
       });
     }
   };
@@ -312,12 +312,12 @@ class Sidebar extends Component {
     let collapsedMenus = this.state.collapsedMenus;
     if (collapsedMenus.indexOf(menuKey) > -1) {
       this.setState({
-        collapsedMenus: collapsedMenus.filter(x => x !== menuKey)
+        collapsedMenus: collapsedMenus.filter((x) => x !== menuKey),
       });
     } else {
       collapsedMenus.push(menuKey);
       this.setState({
-        collapsedMenus
+        collapsedMenus,
       });
     }
     return false;
@@ -327,7 +327,7 @@ class Sidebar extends Component {
     const {
       selectedParentMenu,
       viewingParentMenu,
-      collapsedMenus
+      collapsedMenus,
     } = this.state;
     return (
       <div className="sidebar">
@@ -338,7 +338,7 @@ class Sidebar extends Component {
             >
               <Nav vertical className="list-unstyled">
                 {menuItems &&
-                  menuItems.map(item => {
+                  menuItems.map((item) => {
                     return (
                       <NavItem
                         key={item.id}
@@ -346,7 +346,7 @@ class Sidebar extends Component {
                           active:
                             (selectedParentMenu === item.id &&
                               viewingParentMenu === '') ||
-                            viewingParentMenu === item.id
+                            viewingParentMenu === item.id,
                         })}
                       >
                         {item.newWindow ? (
@@ -355,17 +355,15 @@ class Sidebar extends Component {
                             rel="noopener noreferrer"
                             target="_blank"
                           >
-                            <i className={item.icon} />{' '}
-                            <IntlMessages id={item.label} />
+                            <i className={item.icon} /> {item.label}
                           </a>
                         ) : (
                           <NavLink
                             to={item.to}
-                            onClick={e => this.openSubMenu(e, item)}
+                            onClick={(e) => this.openSubMenu(e, item)}
                             data-flag={item.id}
                           >
-                            <i className={item.icon} />{' '}
-                            <IntlMessages id={item.label} />
+                            <i className={item.icon} /> {item.label}
                           </NavLink>
                         )}
                       </NavItem>
@@ -382,7 +380,7 @@ class Sidebar extends Component {
               options={{ suppressScrollX: true, wheelPropagation: false }}
             >
               {menuItems &&
-                menuItems.map(item => {
+                menuItems.map((item) => {
                   return (
                     <Nav
                       key={item.id}
@@ -390,7 +388,7 @@ class Sidebar extends Component {
                         'd-block':
                           (this.state.selectedParentMenu === item.id &&
                             this.state.viewingParentMenu === '') ||
-                          this.state.viewingParentMenu === item.id
+                          this.state.viewingParentMenu === item.id,
                       })}
                       data-parent={item.id}
                     >
@@ -411,8 +409,7 @@ class Sidebar extends Component {
                                   rel="noopener noreferrer"
                                   target="_blank"
                                 >
-                                  <i className={sub.icon} />{' '}
-                                  <IntlMessages id={sub.label} />
+                                  <i className={sub.icon} /> {sub.label}
                                 </a>
                               ) : sub.subs && sub.subs.length > 0 ? (
                                 <Fragment>
@@ -426,7 +423,7 @@ class Sidebar extends Component {
                                     }`}
                                     to={sub.to}
                                     id={`${item.id}_${index}`}
-                                    onClick={e =>
+                                    onClick={(e) =>
                                       this.toggleMenuCollapse(
                                         e,
                                         `${item.id}_${index}`
@@ -434,53 +431,12 @@ class Sidebar extends Component {
                                     }
                                   >
                                     <i className="simple-icon-arrow-down" />{' '}
-                                    <IntlMessages id={sub.label} />
+                                    {sub.label}
                                   </NavLink>
-
-                                  <Collapse
-                                    isOpen={
-                                      collapsedMenus.indexOf(
-                                        `${item.id}_${index}`
-                                      ) === -1
-                                    }
-                                  >
-                                    <Nav className="third-level-menu">
-                                      {sub.subs.map((thirdSub, thirdIndex) => {
-                                        return (
-                                          <NavItem
-                                            key={`${
-                                              item.id
-                                            }_${index}_${thirdIndex}`}
-                                          >
-                                            {thirdSub.newWindow ? (
-                                              <a
-                                                href={thirdSub.to}
-                                                rel="noopener noreferrer"
-                                                target="_blank"
-                                              >
-                                                <i className={thirdSub.icon} />{' '}
-                                                <IntlMessages
-                                                  id={thirdSub.label}
-                                                />
-                                              </a>
-                                            ) : (
-                                              <NavLink to={thirdSub.to}>
-                                                <i className={thirdSub.icon} />{' '}
-                                                <IntlMessages
-                                                  id={thirdSub.label}
-                                                />
-                                              </NavLink>
-                                            )}
-                                          </NavItem>
-                                        );
-                                      })}
-                                    </Nav>
-                                  </Collapse>
                                 </Fragment>
                               ) : (
                                 <NavLink to={sub.to}>
-                                  <i className={sub.icon} />{' '}
-                                  <IntlMessages id={sub.label} />
+                                  <i className={sub.icon} /> {sub.label}
                                 </NavLink>
                               )}
                             </NavItem>
@@ -503,24 +459,21 @@ const mapStateToProps = ({ menu }) => {
     subHiddenBreakpoint,
     menuHiddenBreakpoint,
     menuClickCount,
-    selectedMenuHasSubItems
+    selectedMenuHasSubItems,
   } = menu;
   return {
     containerClassnames,
     subHiddenBreakpoint,
     menuHiddenBreakpoint,
     menuClickCount,
-    selectedMenuHasSubItems
+    selectedMenuHasSubItems,
   };
 };
 export default withRouter(
-  connect(
-    mapStateToProps,
-    {
-      setContainerClassnames,
-      addContainerClassname,
-      changeDefaultClassnames,
-      changeSelectedMenuHasSubItems
-    }
-  )(Sidebar)
+  connect(mapStateToProps, {
+    setContainerClassnames,
+    addContainerClassname,
+    changeDefaultClassnames,
+    changeSelectedMenuHasSubItems,
+  })(Sidebar)
 );
