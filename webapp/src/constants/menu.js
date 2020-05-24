@@ -3,7 +3,7 @@ const data = [
     id: 'servicios',
     icon: 'iconsminds-gaugage',
     label: 'Servicios',
-    to: '/servicios-de-parqueo',
+    to: '/app/servicios-de-parqueo',
   },
   {
     id: 'reportes',
@@ -42,19 +42,19 @@ const data = [
     id: 'vehiculos',
     icon: 'iconsminds-car',
     label: 'Vehículos',
-    to: '/vehiculos',
+    to: '/app/vehiculos',
   },
   {
     id: 'clientes',
     icon: 'iconsminds-male-female',
     label: 'Clientes',
-    to: '/clientes',
+    to: '/app/clientes',
   },
   {
     id: 'empleados',
     icon: 'iconsminds-business-mens',
     label: 'Empleados',
-    to: '/empleados',
+    to: '/app/empleados',
   },
 ];
 export default data;
