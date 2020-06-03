@@ -7,21 +7,10 @@ class NotificationContainer extends React.Component {
   constructor(props) {
     super(props);
     NotificationManager.addChangeListener(this.handleStoreChange);
+    this.state = {
+      notifications: [],
+    };
   }
-
-  static propTypes = {
-    enterTimeout: PropTypes.number,
-    leaveTimeout: PropTypes.number
-  };
-
-  static defaultProps = {
-    enterTimeout: 400,
-    leaveTimeout: 400
-  };
-
-  state = {
-    notifications: []
-  };
 
   componentWillUnmount = () => {
     NotificationManager.removeChangeListener(this.handleStoreChange);
@@ -29,7 +18,7 @@ class NotificationContainer extends React.Component {
 
   handleStoreChange = (notifications) => {
     this.setState({
-      notifications
+      notifications,
     });
   };
 
@@ -50,5 +39,15 @@ class NotificationContainer extends React.Component {
     );
   }
 }
+
+NotificationContainer.propTypes = {
+  enterTimeout: PropTypes.number,
+  leaveTimeout: PropTypes.number,
+};
+
+NotificationContainer.defaultProps = {
+  enterTimeout: 400,
+  leaveTimeout: 400,
+};
 
 export default NotificationContainer;
