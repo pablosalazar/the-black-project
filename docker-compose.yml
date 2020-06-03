@@ -56,11 +56,13 @@ services:
     tty: true
     ports:
       - "3306:3306"
+    volumes:
+      - ./db_data:/var/lib/mysql/data
     environment:
       MYSQL_DATABASE: the-black-db
       MYSQL_USER: admin
       MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:

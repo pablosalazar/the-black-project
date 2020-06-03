@@ -13,3 +13,7 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+if (module.hot && process.env.NODE_ENV !== 'production') {
+  module.hot.accept();
+}

@@ -43,7 +43,7 @@ class App extends Component {
     const { loginUser } = this.props;
     return (
       <div className="h-100">
-        <React.Fragment>
+        <>
           <NotificationContainer />
           <Suspense fallback={<div className="loading" />}>
             <Router basename="/">
@@ -77,7 +77,7 @@ class App extends Component {
               </Switch>
             </Router>
           </Suspense>
-        </React.Fragment>
+        </>
       </div>
     );
   }
