@@ -4,7 +4,7 @@
 
 # naming branch: number ticket - name ticket 
 
-#naming commints
+# naming commints
 * Start with: feature/fixbug/refactor: 
 * Number of ticket or issue
 * Limit the subject line to 50 characters.
