@@ -23,11 +23,9 @@ class Contact extends Model
 
     public static function validate($request)
     {
-        $rules=[
+        $rules = [
             'employee_id' => 'required'
         ];
         $request->validate($rules);
     }
-
-    
 }

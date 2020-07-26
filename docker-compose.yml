@@ -6,8 +6,6 @@ networks:
 services:
   webapp:
     container_name: webapp
-    stdin_open: true
-    tty: true
     build:
       context: ./webapp
       dockerfile: Dockerfile
@@ -17,8 +15,7 @@ services:
     depends_on:
       - nginx
     volumes:
-      - ./webapp/src:/usr/src/app/src
-      - ./webapp/public:/usr/src/app/public
+      - ./webapp:/usr/src/app/
       - /usr/src/app/node_modules
     networks:
       - the-black-network
@@ -56,12 +53,8 @@ services:
     tty: true
     ports:
       - "3306:3306"
-    volumes:
-      - ./db_data:/var/lib/mysql/data
     environment:
       MYSQL_DATABASE: the-black-db
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: secret
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql

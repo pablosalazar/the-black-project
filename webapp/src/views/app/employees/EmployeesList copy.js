@@ -15,6 +15,10 @@ const CustomTbodyComponent = (props) => (
   </div>
 );
 
+const formatNumber = (num) => {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+};
+
 const dataTableColumns = [
   {
     Header: 'Foto',
@@ -35,11 +39,13 @@ const dataTableColumns = [
   {
     id: 'Full name',
     Header: 'Nombre completo',
+    cellClass: 'list-item-heading',
     accessor: (row) => `${row.first_name} ${row.last_name}`,
   },
   {
     Header: 'Número de documento',
     accessor: 'document_number',
+    accessor: (row) => formatNumber(row),
   },
   {
     Header: 'Cargo',
