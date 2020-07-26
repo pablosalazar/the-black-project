@@ -2,7 +2,8 @@
 
 # Standards
 
-# naming branch: number ticket - name ticket 
+# naming branch: 
+* number ticket - name ticket 
 
 # naming commints
 * Start with: feature/fixbug/refactor: 
