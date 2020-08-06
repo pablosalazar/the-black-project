@@ -96,30 +96,30 @@
 //   font-size: 16px;
 // }
 
-// .fixed-background {
-//   background: none;
-//   background-size: cover;
-//   width: 100%;
-//   height: 100%;
-//   position: fixed;
-//   top: 0;
-//   right: 0;
-//   bottom: 0;
-//   left: 0;
-// }
+.fixed-background {
+  background: none;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 
-// .auth-card {
-//   display: flex;
-//   flex-direction: row;
-//   @include depth(1);
+.auth-card {
+  display: flex;
+  flex-direction: row;
+  @include depth(1);
 
-//   .image-side {
-//     width: 40%;
-//     background: $theme-color-1;
-//     background-size: cover;
-//     padding: 80px 40px;
-//   }
-// }
+  .image-side {
+    width: 40%;
+    background: $theme-color-1;
+    background-size: cover;
+    padding: 80px 40px;
+  }
+}
 
 // .react-datepicker__header__dropdown {
 //   margin: 15px 0;
