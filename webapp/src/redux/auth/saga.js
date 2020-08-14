@@ -1,4 +1,5 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
+import { signIn } from '../../api/auth.api';
 
 import {
   LOGIN_USER,
@@ -20,11 +21,9 @@ export function* watchLoginUser() {
   yield takeEvery(LOGIN_USER, loginWithEmailPassword);
 }
 
-const loginWithEmailPasswordAsync = async (email, password) =>
-  await auth
-    .signInWithEmailAndPassword(email, password)
-    .then((authUser) => authUser)
-    .catch((error) => error);
+const loginWithEmailPasswordAsync = async (email, password) => {
+  return signIn(email, password);
+};
 
 function* loginWithEmailPassword({ payload }) {
   const { email, password } = payload.user;

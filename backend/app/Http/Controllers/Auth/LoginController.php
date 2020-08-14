@@ -10,17 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /**
-     * Login user and create token
-     *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [boolean] remember_me
-     * @return [string] access_token
-     * @return [string] token_type
-     * @return [string] expires_at
-     */
-    public function login(Request $request)  {
+    public function login(Request $request)
+    {
         $request->validate([
             'login'       => 'required|string',
             'password'    => 'required|string',
@@ -34,7 +25,7 @@ class LoginController extends Controller
             'password' => $request->password
         ];
 
-        if(!Auth::attempt($credentials))
+        if (!Auth::attempt($credentials))
             return response()->json([
                 'error' => 'Usuario o contraseña no válidos'
             ], 404);
@@ -87,5 +78,4 @@ class LoginController extends Controller
         request()->merge([$fieldType => $login]);
         return $fieldType;
     }
-
 }
