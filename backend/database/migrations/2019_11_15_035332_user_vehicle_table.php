@@ -13,11 +13,11 @@ class CustomerVehicleTable extends Migration
      */
     public function up()
     {
-        Schema::create('customer_vehicle', function (Blueprint $table) {
-            $table->unsignedBigInteger('customer_id');
+        Schema::create('user_vehicle', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('vehicle_id');
 
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('vehicle_id')->references('id')->on('vehicles');
         });
     }

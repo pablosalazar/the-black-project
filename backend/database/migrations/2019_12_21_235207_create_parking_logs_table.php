@@ -23,8 +23,8 @@ class CreateParkingLogsTable extends Migration
             $table->timestamps();
 
             $table->foreign('parking_service_id')->references('id')->on('parking_services');
-            $table->foreign('employee_responsable_id')->references('id')->on('employees');
-            $table->foreign('employee_registrant_id')->references('id')->on('employees');
+            $table->foreign('employee_responsable_id')->references('id')->on('users');
+            $table->foreign('employee_registrant_id')->references('id')->on('users');
         });
     }
 

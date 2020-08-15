@@ -16,7 +16,7 @@ class CreateParkingServicesTable extends Migration
         Schema::create('parking_services', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('serial');
-            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('vehicle_id');
             $table->unsignedBigInteger('service_point_id');
             $table->unsignedBigInteger('place_id')->nullable();
@@ -28,7 +28,7 @@ class CreateParkingServicesTable extends Migration
             $table->string('observations')->nullable();
             $table->timestamps();
 
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('user_id')->references('id')->on('user_id');
             $table->foreign('vehicle_id')->references('id')->on('vehicles');
             $table->foreign('place_id')->references('id')->on('places');
             $table->foreign('service_point_id')->references('id')->on('places');

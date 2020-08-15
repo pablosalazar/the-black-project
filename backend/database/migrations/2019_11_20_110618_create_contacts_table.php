@@ -18,11 +18,11 @@ class CreateContactsTable extends Migration
             $table->string('name');
             $table->string('relationship');
             $table->string('phone');
-            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('user_id');
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('employee_id')->references('id')->on('employees');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
