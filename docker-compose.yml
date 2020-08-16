@@ -15,7 +15,7 @@ services:
     depends_on:
       - nginx
     volumes:
-      - ./webapp:/usr/src/app/
+      - ./webapp:/usr/src/app
       - /usr/src/app/node_modules
     networks:
       - the-black-network
@@ -53,6 +53,8 @@ services:
     tty: true
     ports:
       - "3306:3306"
+    volumes:
+      - "./db_data:/var/lib/mysql"
     environment:
       MYSQL_DATABASE: the-black-db
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
