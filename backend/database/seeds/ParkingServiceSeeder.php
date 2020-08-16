@@ -23,7 +23,7 @@ class ParkingServiceSeeder extends Seeder
         $service_points = Place::where('category', 'PUNTO DE SERVICIO')->get();
         $places = Place::where('category', '!=', 'PUNTO DE SERVICIO')->get();
         $vehicles->each(function ($vehicle, $key) use ($service_points, $places) {
-            $customer_id =  $vehicle->customers[0]->id;
+            $customer_id =  $vehicle->users[0]->id;
             $service_point_id = $service_points->pluck('id')->random();
             $place_id = $places->pluck('id')->random();
             if ($key == 0) {
@@ -37,7 +37,7 @@ class ParkingServiceSeeder extends Seeder
 
             ParkingService::create([
                 'serial' => $key,
-                'customer_id' => $customer_id,
+                'user_id' => $customer_id,
                 'vehicle_id' => $vehicle->id,
                 'service_point_id' => $service_point_id,
                 'place_id' => $place_id,

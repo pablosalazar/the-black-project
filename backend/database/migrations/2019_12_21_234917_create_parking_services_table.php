@@ -28,7 +28,7 @@ class CreateParkingServicesTable extends Migration
             $table->string('observations')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('vehicle_id')->references('id')->on('vehicles');
             $table->foreign('place_id')->references('id')->on('places');
             $table->foreign('service_point_id')->references('id')->on('places');

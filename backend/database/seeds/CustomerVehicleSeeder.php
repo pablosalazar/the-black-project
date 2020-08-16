@@ -1,7 +1,7 @@
 <?php
 
 use App\Vehicle;
-use App\Customer;
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -17,17 +17,17 @@ class CustomerVehicleSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
         Vehicle::truncate();
-        Customer::truncate();
-        DB::table('customer_vehicle')->truncate();
+        DB::table('user_vehicle')->truncate();
 
         $customerQuantity = 20;
-        $vehicleQuantity = 40;
 
-        $customerFake = Customer::create([
+        $customerFake = User::create([
             'name' => 'Juan Pablo Salazar Restrepo',
             'document_type' => 'CC',
             'document_number' => '1061701570',
             'phone' => '3105160145',
+            'role' => 'Cliente',
+            'active' => User::INACTIVE_USER,
         ]);
 
         $vehicleFake = Vehicle::create([
@@ -36,9 +36,20 @@ class CustomerVehicleSeeder extends Seeder
             'color' => 'AZUL',
         ]);
 
-        $vehicleFake->customers()->attach($customerFake);
+        $vehicleFake->users()->attach($customerFake);
 
-        factory(Customer::class, $customerQuantity)->create()->each(
+        factory(User::class, $customerQuantity)->create([
+            'code' => NULL,
+            'photo' => NULL,
+            'birthdate' => NULL,
+            'nacionality' => NULL,
+            'username' => NULL,
+            'email' => NULL,
+            'password' => NULL, // password
+            'role' => 'Cliente',
+            'active' => User::INACTIVE_USER,
+            'remember_token' => NULL,
+        ])->each(
             function ($customer) {
                 $vehicle = factory(Vehicle::class)->create();
                 $customer->vehicles()->attach($vehicle);

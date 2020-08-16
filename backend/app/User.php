@@ -24,16 +24,25 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'code',
+        'photo',
+        'name',
+        'gender',
+        'birthdate',
+        'document_type',
+        'document_number',
+        'nacionality',
+        'phone',
+        'address',
         'username',
         'email',
         'password',
         'active',
         'role',
-        'employee_id'
     ];
 
     protected $filters = [
-        'email', 'role'
+        'code', 'name', 'document_number', 'email', 'role'
     ];
 
     /**
@@ -57,12 +66,15 @@ class User extends Authenticatable
     public static function validate($request, $user = null)
     {
         $rules = [
-            'username' => $user ? 'required|unique:users,username,' . $user->id : 'required|unique:users',
-            'email' => $user ? 'required|email|unique:users,email,' . $user->id : 'required|email|unique:users',
+            'code' => $user ? 'unique:users,code,' . $user->id : 'required|unique:users',
+            'name' => 'required',
+            'document_type' => 'required',
+            'document_number' => $user ? 'required|unique:employees,document_number,' . $user->id : 'required|unique:employees',
+            'username' => $user ? 'unique:users,username,' . $user->id : 'unique:users',
+            'email' => $user ? 'email|unique:users,email,' . $user->id : 'email|unique:users',
             'password' => 'sometimes|required|min:6',
             'active' => 'required',
             'role' => 'required',
-            'employee_id' => 'required'
         ];
         $request->validate($rules);
     }
@@ -72,13 +84,28 @@ class User extends Authenticatable
         return $this->filters;
     }
 
+    public function contact()
+    {
+        return $this->hasOne('App\Contact');
+    }
+
+    public function vehicles()
+    {
+        return $this->belongsToMany(Vehicle::class);
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = mb_convert_case($value, MB_CASE_TITLE, "UTF-8");
+    }
+
+    public function setBirthdayAttribute($value)
+    {
+        $this->attributes['birthday'] = Carbon::parse($value)->format('Y-m-d');
+    }
+
     public function isActive()
     {
         return $this->active == User::ACTIVE_USER;
-    }
-
-    public function employee()
-    {
-        return $this->belongsTo('App\Employee');
     }
 }

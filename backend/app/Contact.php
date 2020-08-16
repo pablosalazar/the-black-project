@@ -13,18 +13,18 @@ class Contact extends Model
         'name',
         'relationship',
         'phone',
-        'employee_id',
+        'user_id',
     ];
 
-    public function employee()
+    public function user()
     {
-        return $this->belongsTo('App\Employee');
+        return $this->belongsTo('App\User');
     }
 
     public static function validate($request)
     {
         $rules = [
-            'employee_id' => 'required'
+            'user_id' => 'required'
         ];
         $request->validate($rules);
     }

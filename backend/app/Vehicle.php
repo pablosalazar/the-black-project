@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Customer;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Vehicle extends Model
@@ -15,13 +15,13 @@ class Vehicle extends Model
 
     protected $filters = [
         'plate', 'brand', 'color'
-   ];
+    ];
 
     public static function validate($request, $vehicle = null)
     {
-        $rules=[
+        $rules = [
             'brand' => 'required',
-            'plate' => $vehicle ? 'required|unique:vehicles,plate,'.$vehicle->id : 'required|unique:vehicles',
+            'plate' => $vehicle ? 'required|unique:vehicles,plate,' . $vehicle->id : 'required|unique:vehicles',
             'color' => 'required',
         ];
         $request->validate($rules);
@@ -37,8 +37,8 @@ class Vehicle extends Model
         return $this->filters;
     }
 
-    public function customers()
+    public function users()
     {
-        return $this->belongsToMany(Customer::class);
+        return $this->belongsToMany(User::class);
     }
 }

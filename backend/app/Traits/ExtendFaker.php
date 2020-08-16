@@ -227,7 +227,7 @@ class ExtendFaker
         ]);
     }
 
-    public function surnames()
+    public function lastnames()
     {
         return collect([
             'Rodríguez',
@@ -300,69 +300,67 @@ class ExtendFaker
         return $first_firstname->random() . ' ' . $second_firstname->random();
     }
 
-    public function generate_surname()
+    public function generate_lastname()
     {
-        $first_surname = extendfaker::surnames();
-        $second_surname = extendfaker::surnames();
+        $first_surname = extendfaker::lastnames();
+        $second_surname = extendfaker::lastnames();
         return $first_surname->random() . ' ' . $second_surname->random();
     }
 
-    public function generate_email_free($name_person){
-        $name_person = mb_strtolower($name_person,'UTF-8');
+    public function generate_email_free($name_person)
+    {
+        $name_person = mb_strtolower($name_person, 'UTF-8');
 
         $name = extendfaker::delete_accents($name_person);
         $domains = collect(['hotmail.com', 'gmail.com', 'yahoo.es', 'outlook.com', 'outlook.es']);
-        $n_p = str_replace(' ','.',$name);
+        $n_p = str_replace(' ', '.', $name);
         $d = $domains->random();
-        $n = rand(1,99);
-        return $n_p.$n.'@'.$d;
-    }
-
-    public function generate_famous_place()
-    {
-        $famous_places = extendfaker::famous_places();
-        return $famous_places->random();
+        $n = rand(1, 99);
+        return $n_p . $n . '@' . $d;
     }
 
     public function delete_accents($cadena)
     {
-            //Codificamos la cadena en formato utf8 en caso de que nos de errores
-            //$cadena = utf8_encode($cadena);
+        //Codificamos la cadena en formato utf8 en caso de que nos de errores
+        //$cadena = utf8_encode($cadena);
 
-            //Ahora reemplazamos las letras
-            $cadena = str_replace(
-                array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
-                array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'),
-                $cadena
-            );
+        //Ahora reemplazamos las letras
+        $cadena = str_replace(
+            array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
+            array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'),
+            $cadena
+        );
 
-            $cadena = str_replace(
-                array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
-                array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'),
-                $cadena );
+        $cadena = str_replace(
+            array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
+            array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'),
+            $cadena
+        );
 
-            $cadena = str_replace(
-                array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
-                array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'),
-                $cadena );
+        $cadena = str_replace(
+            array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
+            array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'),
+            $cadena
+        );
 
-            $cadena = str_replace(
-                array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'),
-                array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'),
-                $cadena );
+        $cadena = str_replace(
+            array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'),
+            array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'),
+            $cadena
+        );
 
-            $cadena = str_replace(
-                array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'),
-                array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'),
-                $cadena );
+        $cadena = str_replace(
+            array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'),
+            array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'),
+            $cadena
+        );
 
-            $cadena = str_replace(
-                array('ñ', 'Ñ', 'ç', 'Ç'),
-                array('n', 'N', 'c', 'C'),
-                $cadena
-            );
+        $cadena = str_replace(
+            array('ñ', 'Ñ', 'ç', 'Ç'),
+            array('n', 'N', 'c', 'C'),
+            $cadena
+        );
 
-            return $cadena;
-
+        return $cadena;
     }
 }

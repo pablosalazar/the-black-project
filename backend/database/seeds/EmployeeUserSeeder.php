@@ -1,7 +1,8 @@
 <?php
 
 use App\User;
-use App\Employee;
+use App\Vehicle;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 
@@ -17,14 +18,12 @@ class EmployeeUserSeeder extends Seeder
         $quantity = 10;
 
         Schema::disableForeignKeyConstraints();
-        Employee::truncate();
         User::truncate();
 
-        Employee::create([
+        User::create([
             'code' => 'ADMIN01',
-            'photo' => 'default.png',
-            'first_name' => 'Pedro',
-            'last_name' => 'Pérez',
+            'photo' => '',
+            'name' => 'Pedro Pérez',
             'gender' => 'Hombre',
             'birthdate' => '2000-01-01',
             'document_type' => 'CC',
@@ -32,26 +31,20 @@ class EmployeeUserSeeder extends Seeder
             'nacionality' => 'Colombiana',
             'phone' => '3104160145',
             'address' => 'Calle falsa #123',
-            'job_title' => 'Web Admin',
-        ]);
-
-        User::create([
             'username'  => 'admin',
             'email'  => 'admin@theblackps.com',
             'password'  => bcrypt('secret'),
-            'active'  => User::ACTIVE_USER,
             'role'  => 'admin',
-            'employee_id' => 1
+            'active'  => User::ACTIVE_USER,
         ]);
 
         $this->command->info('- Usuario administrador registrado.');
 
-        factory(App\Employee::class, $quantity)->create()->each(function ($employee) {
-            $employee->user()->save(factory(App\User::class)->make());
+        factory(App\User::class, $quantity)->create()->each(function ($employee) {
+            $employee->save();
         });
 
-        $this->command->info('- Empleados y usuarios de ejemplo registrados.');
-
+        $this->command->info('- Usuario de tipo empleados de ejemplo registrados.');
 
         Schema::enableForeignKeyConstraints();
     }

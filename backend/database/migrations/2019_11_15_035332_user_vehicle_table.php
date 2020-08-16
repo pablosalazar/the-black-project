@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CustomerVehicleTable extends Migration
+class UserVehicleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -29,6 +29,6 @@ class CustomerVehicleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_vehicle');
+        Schema::dropIfExists('user_vehicle');
     }
 }
