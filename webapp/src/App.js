@@ -1,5 +1,6 @@
 import React, { Component, Suspense } from 'react';
 import { connect } from 'react-redux';
+import { verifyToken } from './api/auth.api';
 import {
   BrowserRouter as Router,
   Route,
@@ -7,6 +8,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import NotificationContainer from './components/common/react-notifications/NotificationContainer';
+import { loginUserSuccess } from './redux/actions';
 
 const ViewMain = React.lazy(() =>
   import(/* webpackChunkName: "views" */ './views')
@@ -42,7 +44,46 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => {
 };
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isTokenVerified: false,
+    };
+  }
+
+  componentDidMount() {
+    this.verifyToken();
+  }
+
+  componentDidUpdate = () => {
+    const { isTokenVerified } = this.state;
+    if (!isTokenVerified) {
+      this.setState({
+        isTokenVerified: true,
+      });
+    }
+  };
+
+  verifyToken = async () => {
+    const access_token = localStorage.getItem('access_token');
+    if (access_token) {
+      try {
+        const response = await verifyToken(access_token);
+
+        const { user } = response.data;
+        this.props.loginUserSuccess(user);
+      } catch (error) {
+        this.setState({ isTokenVerified: true });
+      }
+    } else {
+      this.setState({ isTokenVerified: true });
+    }
+  };
+
   render() {
+    const { isTokenVerified } = this.state;
+    if (!isTokenVerified) return <div className="loading" />;
+
     const { loginUser } = this.props;
     return (
       <div className="h-100">
@@ -84,6 +125,8 @@ const mapStateToProps = ({ authUser }) => {
   const { user: loginUser } = authUser;
   return { loginUser };
 };
-const mapActionsToProps = {};
+const mapActionsToProps = {
+  loginUserSuccess,
+};
 
 export default connect(mapStateToProps, mapActionsToProps)(App);
