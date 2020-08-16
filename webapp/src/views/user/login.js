@@ -48,7 +48,7 @@ class Login extends Component {
     if (this.props.error) {
       NotificationManager.warning(
         this.props.error,
-        'Login Error',
+        'Error al iniciar sesión',
         3000,
         null,
         null,
@@ -102,6 +102,7 @@ class Login extends Component {
                         type="password"
                         name="password"
                         placeholder="Contraseña"
+                        autoComplete="off"
                         validate={this.validatePassword}
                       />
                       {errors.password && touched.password && (
@@ -115,6 +116,7 @@ class Login extends Component {
                         ¿Olvidó su contraseña?
                       </NavLink>
                       <Button
+                        type="submit"
                         color="primary"
                         className={`btn-shadow btn-multiple-state ${
                           this.props.loading ? 'show-spinner' : ''

@@ -8,11 +8,16 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
 
 export function configureStore(initialState) {
-  const store = createStore(
-    reducers,
-    initialState,
-    compose(applyMiddleware(...middlewares))
-  );
+  const enhancers = [applyMiddleware(...middlewares)];
+
+  if (process.env.NODE_ENV === 'development') {
+    enhancers.push(
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
+  }
+
+  const store = createStore(reducers, initialState, compose(...enhancers));
 
   sagaMiddleware.run(sagas);
 
@@ -25,3 +30,6 @@ export function configureStore(initialState) {
 
   return store;
 }
+
+const store = configureStore();
+export default store;

@@ -30,15 +30,12 @@ function* loginWithEmailPassword({ payload }) {
   const { history } = payload;
   try {
     const loginUser = yield call(loginWithEmailPasswordAsync, email, password);
-    if (!loginUser.message) {
-      localStorage.setItem('user_id', loginUser.user.uid);
-      yield put(loginUserSuccess(loginUser.user));
-      history.push('/');
-    } else {
-      yield put(loginUserError(loginUser.message));
-    }
+
+    localStorage.setItem('access_token', loginUser.data.access_token);
+    yield put(loginUserSuccess(loginUser.data.user));
+    history.push('/');
   } catch (error) {
-    yield put(loginUserError(error));
+    yield put(loginUserError(error.response.data.error));
   }
 }
 

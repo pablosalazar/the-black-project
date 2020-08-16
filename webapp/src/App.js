@@ -8,6 +8,9 @@ import {
 } from 'react-router-dom';
 import NotificationContainer from './components/common/react-notifications/NotificationContainer';
 
+const ViewMain = React.lazy(() =>
+  import(/* webpackChunkName: "views" */ './views')
+);
 const ViewApp = React.lazy(() =>
   import(/* webpackChunkName: "views-app" */ './views/app')
 );
@@ -23,7 +26,7 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        authUser || true ? (
+        authUser ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -46,19 +49,18 @@ class App extends Component {
         <>
           <NotificationContainer />
           <Suspense fallback={<div className="loading" />}>
-            <Router basename="/">
+            <Router>
               <Switch>
                 <AuthRoute
                   path="/app"
                   authUser={loginUser}
                   component={ViewApp}
                 />
-
                 <Route
                   path="/user"
                   render={(props) => <ViewUser {...props} />}
                 />
-                {/* <Route
+                <Route
                   path="/error"
                   exact
                   render={(props) => <ViewError {...props} />}
@@ -67,11 +69,6 @@ class App extends Component {
                   path="/"
                   exact
                   render={(props) => <ViewMain {...props} />}
-                />*/}
-                <Route
-                  path="/error"
-                  exact
-                  render={(props) => <ViewError {...props} />}
                 />
                 <Redirect to="/error" />
               </Switch>

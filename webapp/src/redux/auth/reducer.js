@@ -25,7 +25,7 @@ export default (state = INIT_STATE, action) => {
     case LOGIN_USER:
       return { ...state, loading: true, error: '' };
     case LOGIN_USER_SUCCESS:
-      return { ...state, loading: false, user: action.payload.uid, error: '' };
+      return { ...state, loading: false, user: action.payload, error: '' };
     case LOGIN_USER_ERROR:
       return {
         ...state,
