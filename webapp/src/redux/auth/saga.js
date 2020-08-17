@@ -1,5 +1,5 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
-import { signIn } from '../../api/auth.api';
+import { signIn, logout as logoutAPI } from '../../api/auth.api';
 
 import {
   LOGIN_USER,
@@ -44,10 +44,8 @@ export function* watchLogoutUser() {
 }
 
 const logoutAsync = async (history) => {
-  await auth
-    .signOut()
-    .then((authUser) => authUser)
-    .catch((error) => error);
+  const token = localStorage.removeItem('access_token');
+  await logoutAPI(token);
   history.push('/');
 };
 
@@ -55,7 +53,6 @@ function* logout({ payload }) {
   const { history } = payload;
   try {
     yield call(logoutAsync, history);
-    localStorage.removeItem('user_id');
   } catch (error) {}
 }
 
@@ -116,7 +113,7 @@ function* resetPassword({ payload }) {
 export default function* rootSaga() {
   yield all([
     fork(watchLoginUser),
-    // fork(watchLogoutUser),
+    fork(watchLogoutUser),
     // fork(watchForgotPassword),
     // fork(watchResetPassword),
   ]);

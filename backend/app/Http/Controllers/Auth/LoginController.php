@@ -45,7 +45,7 @@ class LoginController extends Controller
             'user' => [
                 'name' => $user->name,
                 'role' => $user->role,
-                'image' => $user->photo,
+                'photo' => $user->photo,
             ],
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
@@ -55,16 +55,24 @@ class LoginController extends Controller
         ]);
     }
 
-    /**
-     * Logout user (Revoke the token)
-     *
-     * @return [string] message
-     */
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
         return response()->json([
             'message' => 'Sesion cerrada correctamente'
+        ]);
+    }
+
+    public function verify(Request $request)
+    {
+
+        $user = $request->user();
+        return response()->json([
+            'user' => [
+                'name' => $user->name,
+                'role' => $user->role,
+                'photo' => $user->photo,
+            ],
         ]);
     }
 

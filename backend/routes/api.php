@@ -18,6 +18,7 @@ Route::prefix('auth')->group(function () {
     Route::post('login', 'Auth\LoginController@login');
 
     Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('verify', 'Auth\LoginController@verify');
         Route::get('logout', 'Auth\LoginController@logout');
     });
 });
