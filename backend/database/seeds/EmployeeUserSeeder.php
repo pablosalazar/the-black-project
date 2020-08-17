@@ -21,9 +21,9 @@ class EmployeeUserSeeder extends Seeder
         User::truncate();
 
         User::create([
-            'code' => 'ADMIN01',
+            'code' => 'Administrador',
             'photo' => '',
-            'name' => 'Pedro Pérez',
+            'name' => 'Juan Pablo Salazar Restrepo',
             'gender' => 'Hombre',
             'birthdate' => '2000-01-01',
             'document_type' => 'CC',

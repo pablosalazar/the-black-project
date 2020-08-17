@@ -24,11 +24,11 @@ import {
 import { MobileMenuIcon, MenuIcon } from '../../components/svg';
 import TopnavEasyAccess from './Topnav.EasyAccess';
 import TopnavNotifications from './Topnav.Notifications';
+import Avatar from 'react-avatar';
 
 class TopNav extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isInFullScreen: false,
       searchKeyword: '',
@@ -213,7 +213,7 @@ class TopNav extends Component {
           <span className="logo d-none d-xs-block" />
           <span className="logo-mobile d-block d-xs-none" />
         </a>
-        <div className="navbar-right">
+        <div className="navbar-right d-flex justify-content-end">
           <div className="header-icons d-inline-block align-middle">
             <TopnavEasyAccess />
             <TopnavNotifications />
@@ -232,8 +232,11 @@ class TopNav extends Component {
           </div>
           <div className="user d-inline-block">
             <UncontrolledDropdown className="dropdown-menu-right">
-              <DropdownToggle className="p-0" color="empty">
-                <span className="name mr-1">Sarah Kortney</span>
+              <DropdownToggle className="d-flex p-0" color="empty">
+                <div className="name text-right mr-1">
+                  <div>{this.props.user.name}</div>
+                  <div className="text-primary">{this.props.user.role}</div>
+                </div>
                 <span>
                   <img alt="Profile" src="/assets/img/profile-pic-l.jpg" />
                 </span>
@@ -256,12 +259,14 @@ class TopNav extends Component {
   }
 }
 
-const mapStateToProps = ({ menu, settings }) => {
+const mapStateToProps = ({ menu, authUser }) => {
+  const { user } = authUser;
   const { containerClassnames, menuClickCount, selectedMenuHasSubItems } = menu;
   return {
     containerClassnames,
     menuClickCount,
     selectedMenuHasSubItems,
+    user,
   };
 };
 export default connect(mapStateToProps, {
