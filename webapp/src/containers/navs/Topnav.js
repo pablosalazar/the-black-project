@@ -233,22 +233,29 @@ class TopNav extends Component {
           <div className="user d-inline-block">
             <UncontrolledDropdown className="dropdown-menu-right">
               <DropdownToggle className="d-flex p-0" color="empty">
-                <div className="name text-right mr-1">
+                <div className="name text-right mr-3">
                   <div>{this.props.user.name}</div>
                   <div className="text-primary">{this.props.user.role}</div>
                 </div>
                 <span>
-                  <img alt="Profile" src="/assets/img/profile-pic-l.jpg" />
+                  <Avatar
+                    size="40"
+                    maxInitials={2}
+                    name={this.props.user.name}
+                    round={true}
+                  />
                 </span>
               </DropdownToggle>
               <DropdownMenu className="mt-3" right>
-                <DropdownItem>Account1</DropdownItem>
-                <DropdownItem>Features</DropdownItem>
-                <DropdownItem>History</DropdownItem>
-                <DropdownItem>Support</DropdownItem>
+                <DropdownItem
+                  onClick={() => this.props.history.push(`/perfil`)}
+                >
+                  Configurar perfil
+                </DropdownItem>
+
                 <DropdownItem divider />
                 <DropdownItem onClick={() => this.handleLogout()}>
-                  Sign out
+                  Cerrar sesión
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
