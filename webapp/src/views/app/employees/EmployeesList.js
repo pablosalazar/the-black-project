@@ -1,171 +1,153 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardBody } from 'reactstrap';
-import { useTable, usePagination, useSortBy } from 'react-table';
-import axios from 'axios';
-import classnames from 'classnames';
-import DatatablePagination from '../../../components/DatatablePagination';
+import { Row, Card, CardBody, CardTitle } from 'reactstrap';
+import { Colxx, Separator } from '../../../components/common/CustomBootstrap';
+import Breadcrumb from '../../../containers/navs/Breadcrumb';
+import { NavLink } from 'react-router-dom';
+// import Datatable from '../../../../../components/common/datatable/Datatable';
 
-const cols = [
-  {
-    Header: 'Foto',
-    accessor: 'photo',
-    Cell: (props) => (
-      <figure
-        className="avatar"
-        style={{
-          backgroundImage: `url(http://localhost/img/default.png)`,
-        }}
-      />
-    ),
-  },
-  {
-    Header: 'Nombres',
-    accessor: 'first_name',
-  },
-  {
-    Header: 'Apellidos',
-    accessor: 'last_name',
-  },
-  {
-    Header: 'Código de empleado',
-    accessor: 'code',
-  },
-  {
-    Header: 'Cargo',
-    accessor: 'job_title',
-  },
-  {
-    Header: 'Número de documento',
-    accessor: 'document_number',
-  },
-  {
-    Header: 'Teléfono',
-    accessor: 'phone',
-  },
-];
+import { getEmployees } from '../../../api/employee.api';
+// import cols from './columns';
 
-const Table = ({ columns, data, divided = false, defaultPageSize = 10 }) => {
-  console.log(columns);
-  const {
-    getTableProps,
-    getTableBodyProps,
-    prepareRow,
-    headerGroups,
-    page,
-    canPreviousPage,
-    canNextPage,
-    pageCount,
-    gotoPage,
-    setPageSize,
-    state: { pageIndex, pageSize },
-  } = useTable(
-    {
-      columns,
-      data,
-      initialState: {
-        pageIndex: 0,
-        pageSize: defaultPageSize,
-        sortBy: [
-          {
-            id: 'title',
-          },
-        ],
-      },
-    },
-    useSortBy,
-    usePagination
-  );
+function EmployeesList(props) {
+  const [employees, setEmployees] = useState(null);
+  const [totalRows, setTotalRows] = useState(0);
+  const [totalFilteredRows, setTotalFilteredRows] = useState(0);
+  const [search, setSearch] = useState('');
+  const [paginator, setPaginator] = useState({
+    pages: 0,
+    page: 0,
+    pageSize: 10,
+    orderBy: 'id',
+    order: 'asc',
+  });
 
-  return (
-    <>
-      <table
-        {...getTableProps()}
-        className={`r-table order-with-arrow table table-hover${classnames({
-          'table-divided': divided,
-        })}`}
-      >
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column, columnIndex) => (
-                <th
-                  key={`th_${columnIndex}`}
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className={
-                    column.isSorted
-                      ? column.isSortedDesc
-                        ? 'sorted-desc'
-                        : 'sorted-asc'
-                      : ''
-                  }
-                >
-                  {column.render('Header')}
-                  <span />
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-
-        <tbody {...getTableBodyProps()}>
-          {page.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell, cellIndex) => (
-                  <td
-                    key={`td_${cellIndex}`}
-                    {...cell.getCellProps({
-                      className: cell.column.cellClass,
-                    })}
-                  >
-                    {cell.render('Cell')}
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-
-      <DatatablePagination
-        page={pageIndex}
-        pages={pageCount}
-        canPrevious={canPreviousPage}
-        canNext={canNextPage}
-        pageSizeOptions={[4, 10, 20, 30, 40, 50]}
-        showPageSizeOptions={false}
-        showPageJump={false}
-        defaultPageSize={pageSize}
-        onPageChange={(p) => gotoPage(p)}
-        onPageSizeChange={(s) => setPageSize(s)}
-        paginationMaxSize={pageCount}
-      />
-    </>
-  );
-};
-
-const EmployeesList = () => {
-  const [data, setData] = useState([]);
+  useEffect(() => {
+    // const fetchData = async () => {
+    //   const result = await getUsers({ ...paginator }, search);
+    //   setUsers(result.data.data);
+    //   setTotalRows(result.data.total);
+    // };
+    // fetchData();
+  }, [paginator]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios('http://localhost/api/employees');
-      console.log(result.data.data);
-      setData(result.data.data);
+      const result = await getUsers(
+        {
+          ...paginator,
+          page: 0,
+        },
+        search
+      );
+      setUsers(result.data.data);
+      setTotalRows(result.data.total);
+      setTotalFilteredRows(result.data.filteredTotal);
     };
 
-    fetchData();
-  }, []);
+    // fetchData();
+  }, [search]);
+
+  function handlePageChange(page) {
+    setPaginator({
+      ...paginator,
+      page: page,
+    });
+  }
+
+  function handleSortChange(data) {
+    if (data.length) {
+      setPaginator({
+        ...paginator,
+        orderBy: data[0].id,
+        order: data[0].desc ? 'desc' : 'asc',
+      });
+    }
+  }
+
+  function handlePageSizeChange(size) {
+    setPaginator({
+      ...paginator,
+      page: 0,
+      pageSize: size,
+    });
+  }
+
+  function handleOnSearchKey(e) {
+    if (e.key === 'Enter') {
+      setSearch(e.target.value.toLowerCase());
+    }
+  }
+
+  function goToDetailPage(id) {
+    props.history.push(`usuario/${id}`);
+  }
+
+  // if (!users) return <div className="loading" />;
 
   return (
-    <Card className="mb-4">
-      <CardBody>
-        {/* <CardTitle>Lista de Empleados</CardTitle> */}
-        <Table columns={cols} data={data} />
-      </CardBody>
-    </Card>
+    <>
+      <Row>
+        <Colxx xxs="12">
+          <Breadcrumb heading="Empleados" match={props.match} />
+          <Separator className="mb-5" />
+        </Colxx>
+      </Row>
+      <Row>
+        <Colxx xxs="12" className="mb-4">
+          {/* <Card>
+            <CardBody> */}
+          <CardTitle>
+            <h2 className="text-uppercase">Lista de usuarios</h2>
+          </CardTitle>
+          <div className="d-flex justify-content-between align-items-center my-4">
+            <div className="search ">
+              <input
+                type="text"
+                name="keyword"
+                id="search"
+                placeholder={'buscar...'}
+                onKeyPress={(e) => handleOnSearchKey(e)}
+                autoComplete="off"
+              />
+            </div>
+            <NavLink to={'nuevo'} className="btn btn-primary">
+              AGREGAR NUEVO <i className="fas fa-plus"></i>
+            </NavLink>
+          </div>
+          <div className="separator mb-5" />
+          <p className="text-right">
+            {search.length === 0 ? (
+              <span>Total usuarios: {totalRows}</span>
+            ) : (
+              <span>
+                Se encontrarón {totalFilteredRows} de un total de {totalRows} de
+                registros
+              </span>
+            )}
+          </p>
+          {/* <Datatable
+                columns={cols}
+                data={users}
+                pageCount={
+                  search.length
+                    ? Math.ceil(totalFilteredRows / paginator.pageSize)
+                    : Math.ceil(totalRows / paginator.pageSize)
+                }
+                defaultPageSize={paginator.pageSize}
+                currentPage={paginator.page}
+                startSortBy={paginator.orderBy}
+                onSortChange={handleSortChange}
+                onPageChange={handlePageChange}
+                onPageSizeChange={handlePageSizeChange}
+                goToDetailPage={(id) => goToDetailPage(id)}
+                divided
+              /> */}
+          {/* </CardBody>
+          </Card> */}
+        </Colxx>
+      </Row>
+    </>
   );
-};
+}
 
 export default EmployeesList;

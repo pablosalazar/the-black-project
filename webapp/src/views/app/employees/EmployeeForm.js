@@ -210,6 +210,9 @@ const EmployeeForm = () => {
             </div>
           </Row>
           <div className="text-right">
+            <NavLink to={'/app/empleados/lista'} className="btn btn-light mr-2">
+              Cancelar
+            </NavLink>
             <Button color="primary" type="submit">
               Guardar
             </Button>
