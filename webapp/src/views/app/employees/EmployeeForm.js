@@ -76,8 +76,7 @@ const EmployeeForm = (props) => {
     try {
       await createEmployee(values);
     } catch (error) {
-      const errors = error.response.data.errors;
-      console.log(Object.values(errors));
+      console.log(error);
     }
   };
 

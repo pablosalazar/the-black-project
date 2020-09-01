@@ -1,3 +1,7 @@
+/* APP */
+export const SET_ERROR_MESSAGE_APP = 'SET_ERROR_MESSAGE_APP';
+export const SET_SUCCESS_MESSAGE_APP = 'SET_SUCCESS_MESSAGE_APP';
+
 /* AUTH */
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
@@ -18,5 +22,6 @@ export const MENU_CHANGE_DEFAULT_CLASSES = 'MENU_CHANGE_DEFAULT_CLASSES';
 export const MENU_CHANGE_HAS_SUB_ITEM_STATUS =
   'MENU_CHANGE_HAS_SUB_ITEM_STATUS';
 
+export * from './app/actions';
 export * from './menu/actions';
 export * from './auth/actions';
