@@ -17,24 +17,26 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import { createEmployee } from '../../../api/employee.api';
+
 const CreateSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, 'Demasiado corto!')
-    .max(50, 'Demasiado Largo!')
-    .required('Este campo es obligatorio'),
-  documentType: Yup.string().required('Este campo es obligatorio'),
-  documentNumber: Yup.number()
-    .typeError('Ingresa solo números')
-    .required('Este campo es obligatorio'),
-  gender: Yup.string().required('Este campo es obligatorio'),
-  birthDate: Yup.date(),
-  email: Yup.string()
-    .required('Este campo es obligatorio')
-    .email('Escribe un email válido'),
-  password: Yup.string()
-    .required('Este campo es obligatorio')
-    .min(6, 'Demasiado corto!'),
-  role: Yup.string().required('Este campo es obligatorio'),
+  // name: Yup.string()
+  //   .min(2, 'Demasiado corto!')
+  //   .max(50, 'Demasiado Largo!')
+  //   .required('Este campo es obligatorio'),
+  // documentType: Yup.string().required('Este campo es obligatorio'),
+  // documentNumber: Yup.number()
+  //   .typeError('Ingresa solo números')
+  //   .required('Este campo es obligatorio'),
+  // gender: Yup.string().required('Este campo es obligatorio'),
+  // birthdate: Yup.date(),
+  // email: Yup.string()
+  //   .required('Este campo es obligatorio')
+  //   .email('Escribe un email válido'),
+  // password: Yup.string()
+  //   .required('Este campo es obligatorio')
+  //   .min(6, 'Demasiado corto!'),
+  // role: Yup.string().required('Este campo es obligatorio'),
 });
 
 const UpdateSchema = Yup.object().shape({
@@ -47,15 +49,11 @@ const UpdateSchema = Yup.object().shape({
   documentNumber: Yup.number()
     .typeError('Ingresa solo números')
     .required('Este campo es obligatorio'),
-  birthDate: Yup.date(),
+  birthdate: Yup.date(),
   email: Yup.string()
     .required('Este campo es obligatorio')
     .email('Escribe un email válido'),
 });
-
-const onSubmit = async (values) => {
-  console.log(values);
-};
 
 const EmployeeForm = (props) => {
   const { employee } = props;
@@ -66,13 +64,23 @@ const EmployeeForm = (props) => {
     documentType: '',
     documentNumber: '',
     gender: '',
-    birthDate: '',
+    birthdate: '',
     phone: '',
     address: '',
     email: '',
     password: '',
     isActive: true,
   };
+
+  const onSubmit = async (values) => {
+    try {
+      await createEmployee(values);
+    } catch (error) {
+      const errors = error.response.data.errors;
+      console.log(Object.values(errors));
+    }
+  };
+
   return (
     <Formik
       initialValues={initialData}
@@ -182,20 +190,20 @@ const EmployeeForm = (props) => {
                     <Label>Fecha de nacimiento</Label>
                     <DatePicker
                       selected={
-                        values.birthDate
-                          ? moment(values.birthDate).toDate()
+                        values.birthdate
+                          ? moment(values.birthdate).toDate()
                           : null
                       }
                       name="birthdate"
-                      onChange={(date) => setFieldValue('birthDate', date)}
+                      onChange={(date) => setFieldValue('birthdate', date)}
                       placeholderText={'DD/MM/YYYY'}
                       autoComplete="off"
                       maxDate={new Date()}
                       showMonthDropdown
                       showYearDropdown
                     />
-                    {errors.birthDate && touched.birthDate ? (
-                      <div className="f_error">{errors.birthDate}</div>
+                    {errors.birthdate && touched.birthdate ? (
+                      <div className="f_error">{errors.birthdate}</div>
                     ) : null}
                   </FormGroup>
                 </CardBody>
