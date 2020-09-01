@@ -28,9 +28,9 @@ const setupAxios = (store) => {
           localStorage.removeItem('access_token');
           window.location.href = '/';
         }
-        console.log(error.response.data);
+
         if (error.response.data) {
-          store.dispatch(setErrorMessageApp(error.response.data.message));
+          store.dispatch(setErrorMessageApp(error.response.data.error));
         }
       }
 
