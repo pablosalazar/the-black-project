@@ -36,9 +36,9 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof ValidationException) {
-            return $this->errorResponse('Algunos campos obligatorios no fueron proporcionados', 422);
-        }
+        // if ($exception instanceof ValidationException) {
+        //     return $this->errorResponse('Algunos campos obligatorios no fueron proporcionados', 422);
+        // }
 
         if ($exception instanceof ModelNotFoundException) {
             $modelo = strtolower(class_basename($exception->getModel()));

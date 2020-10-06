@@ -21,9 +21,10 @@ class EmployeeUserSeeder extends Seeder
         User::truncate();
 
         User::create([
-            'code' => 'Administrador',
+            'code' => '0012',
             'photo' => '',
-            'name' => 'Juan Pablo Salazar Restrepo',
+            'firstname' => 'Juan Pablo',
+            'lastname' => 'Salazar Restrepo',
             'gender' => 'Hombre',
             'birthdate' => '2000-01-01',
             'document_type' => 'CC',
@@ -34,7 +35,7 @@ class EmployeeUserSeeder extends Seeder
             'username'  => 'admin',
             'email'  => 'admin@theblackps.com',
             'password'  => bcrypt('secret'),
-            'role'  => 'admin',
+            'role'  => 'Administrador',
             'active'  => User::ACTIVE_USER,
         ]);
 

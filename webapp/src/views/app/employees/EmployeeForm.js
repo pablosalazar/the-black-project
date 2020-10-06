@@ -20,64 +20,104 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { createEmployee } from '../../../api/employee.api';
 
 const CreateSchema = Yup.object().shape({
-  // name: Yup.string()
-  //   .min(2, 'Demasiado corto!')
-  //   .max(50, 'Demasiado Largo!')
-  //   .required('Este campo es obligatorio'),
-  // documentType: Yup.string().required('Este campo es obligatorio'),
-  // documentNumber: Yup.number()
-  //   .typeError('Ingresa solo números')
-  //   .required('Este campo es obligatorio'),
-  // gender: Yup.string().required('Este campo es obligatorio'),
-  // birthdate: Yup.date(),
-  // email: Yup.string()
-  //   .required('Este campo es obligatorio')
-  //   .email('Escribe un email válido'),
-  // password: Yup.string()
-  //   .required('Este campo es obligatorio')
-  //   .min(6, 'Demasiado corto!'),
-  // role: Yup.string().required('Este campo es obligatorio'),
-});
-
-const UpdateSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, 'Demasiado corto!')
-    .max(50, 'Demasiado Largo!')
-    .required('Este campo es obligatorio'),
-  role: Yup.string().required('Este campo es obligatorio'),
-  documentType: Yup.string().required('Este campo es obligatorio'),
-  documentNumber: Yup.number()
+  firstname: Yup.string().required('Este campo es obligatorio'),
+  lastname: Yup.string().required('Este campo es obligatorio'),
+  document_type: Yup.string().required('Este campo es obligatorio'),
+  document_number: Yup.number()
     .typeError('Ingresa solo números')
     .required('Este campo es obligatorio'),
+  gender: Yup.string().required('Este campo es obligatorio'),
+  code: Yup.string().required('Este campo es obligatorio'),
+  role: Yup.string().required('Este campo es obligatorio'),
   birthdate: Yup.date(),
   email: Yup.string()
     .required('Este campo es obligatorio')
     .email('Escribe un email válido'),
+  username: Yup.string().required('Este campo es obligatorio'),
+  password: Yup.string()
+    .required('Este campo es obligatorio')
+    .min(6, 'Demasiado corto!'),
+});
+
+const UpdateSchema = Yup.object().shape({
+  // name: Yup.string()
+  //   .min(2, 'Demasiado corto!')
+  //   .max(50, 'Demasiado Largo!')
+  //   .required('Este campo es obligatorio'),
+  // role: Yup.string().required('Este campo es obligatorio'),
+  // document_type: Yup.string().required('Este campo es obligatorio'),
+  // document_number: Yup.number()
+  //   .typeError('Ingresa solo números')
+  //   .required('Este campo es obligatorio'),
+  // birthdate: Yup.date(),
+  // email: Yup.string()
+  //   .required('Este campo es obligatorio')
+  //   .email('Escribe un email válido'),
 });
 
 const EmployeeForm = (props) => {
   const { employee } = props;
+  const [errorCredentials, setErrorCredentiales] = useState(false);
   const isUpdate = employee ? true : false;
+
   const initialData = {
     photo: null,
-    name: '',
-    documentType: '',
-    documentNumber: '',
+    firstname: '',
+    lastname: '',
+    document_type: '',
+    document_number: '',
     gender: '',
+    nacionality: '',
     birthdate: '',
     phone: '',
     address: '',
+    code: '',
+    role: '',
     email: '',
+    username: '',
     password: '',
-    isActive: true,
+    active: true,
   };
 
   const onSubmit = async (values) => {
-    try {
-      await createEmployee(values);
-    } catch (error) {
-      console.log(error);
+    console.log(values);
+    // try {
+    //   await createEmployee(values);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
+
+  const generateCredentials = (data, setFieldValue) => {
+    const { firstname, lastname, document_number, code } = data;
+    let first_firstname, second_firstname, first_lastname, second_lastname;
+    if (!firstname || !lastname || !document_number || !code) {
+      setErrorCredentiales(true);
+      return null;
     }
+    first_firstname = firstname.trim().split(' ')[0];
+    second_firstname = firstname.trim().split(' ')[1];
+    first_lastname = lastname.trim().split(' ')[0];
+    second_lastname = lastname.trim().split(' ')[1];
+    // Create username
+    let username = firstname.substring(0, 2) + first_firstname.substring(0, 2);
+    if (second_lastname) {
+      username += second_lastname.substring(0, 2);
+    }
+    username += code;
+    username = username.toLowerCase();
+    // Create password
+    let initialsName = first_firstname.substring(0, 1);
+    if (second_firstname) {
+      initialsName += second_firstname.substring(0, 1);
+    }
+    initialsName += first_lastname.substring(0, 1);
+    if (second_lastname) {
+      initialsName += second_lastname.substring(0, 1);
+    }
+    const password = document_number + initialsName.toUpperCase();
+    setFieldValue('username', username);
+    setFieldValue('password', password);
   };
 
   return (
@@ -86,15 +126,7 @@ const EmployeeForm = (props) => {
       validationSchema={isUpdate ? UpdateSchema : CreateSchema}
       onSubmit={onSubmit}
     >
-      {({
-        handleSubmit,
-        setFieldValue,
-        setFieldTouched,
-        values,
-        errors,
-        touched,
-        isSubmitting,
-      }) => (
+      {({ handleSubmit, setFieldValue, values, errors, touched }) => (
         <Form className="av-tooltip tooltip-label-right">
           <p className="text-right">
             Los campos marcados con (<span className="req">*</span>) son
@@ -105,38 +137,53 @@ const EmployeeForm = (props) => {
               <Card>
                 <CardBody>
                   <CardTitle className="text-primary">
-                    Informacion personal
+                    Información personal
                   </CardTitle>
                   <FormGroup>
                     <Label>
-                      Nombre completo <span className="req">*</span>
+                      Nombres <span className="req">*</span>
                     </Label>
                     <Field
                       className="form-control"
-                      name="name"
-                      value={values.name}
+                      name="firstname"
+                      value={values.firstname}
                     />
-                    {errors.name && touched.name && (
-                      <div className="f_error">{errors.name}</div>
+                    {errors.firstname && touched.firstname && (
+                      <div className="f_error">{errors.firstname}</div>
                     )}
                   </FormGroup>
+
+                  <FormGroup>
+                    <Label>
+                      Apellidos <span className="req">*</span>
+                    </Label>
+                    <Field
+                      className="form-control"
+                      name="lastname"
+                      value={values.lastname}
+                    />
+                    {errors.lastname && touched.lastname && (
+                      <div className="f_error">{errors.lastname}</div>
+                    )}
+                  </FormGroup>
+
                   <FormGroup>
                     <Label>
                       Tipo de documento <span className="req">*</span>
                     </Label>
                     <Field
                       as="select"
-                      name="documentType"
+                      name="document_type"
                       className="form-control"
-                      value={values.documentType}
+                      value={values.document_type}
                     >
                       <option value="">Seleccione una opción...</option>
                       <option value="C.C">Cedula de ciudadanía</option>
                       <option value="C.E">Cedula de extranjería</option>
                       <option value="T.I">Tarjeta de identidad</option>
                     </Field>
-                    {errors.documentType && touched.documentType && (
-                      <div className="f_error">{errors.documentType}</div>
+                    {errors.document_type && touched.document_type && (
+                      <div className="f_error">{errors.document_type}</div>
                     )}
                   </FormGroup>
 
@@ -146,11 +193,11 @@ const EmployeeForm = (props) => {
                     </Label>
                     <Field
                       className="form-control"
-                      name="documentNumber"
-                      value={values.documentNumber}
+                      name="document_number"
+                      value={values.document_number}
                     />
-                    {errors.documentNumber && touched.documentNumber && (
-                      <div className="f_error">{errors.documentNumber}</div>
+                    {errors.document_number && touched.document_number && (
+                      <div className="f_error">{errors.document_number}</div>
                     )}
                   </FormGroup>
 
@@ -201,9 +248,33 @@ const EmployeeForm = (props) => {
                       showMonthDropdown
                       showYearDropdown
                     />
-                    {errors.birthdate && touched.birthdate ? (
+                    {errors.birthdate && touched.birthdate && (
                       <div className="f_error">{errors.birthdate}</div>
-                    ) : null}
+                    )}
+                  </FormGroup>
+
+                  <FormGroup>
+                    <Label>Teléfono</Label>
+                    <Field
+                      className="form-control"
+                      name="phone"
+                      value={values.phone}
+                    />
+                    {errors.phone && touched.phone && (
+                      <div className="f_error">{errors.phone}</div>
+                    )}
+                  </FormGroup>
+
+                  <FormGroup>
+                    <Label>Dirección</Label>
+                    <Field
+                      className="form-control"
+                      name="address"
+                      value={values.address}
+                    />
+                    {errors.address && touched.address && (
+                      <div className="f_error">{errors.address}</div>
+                    )}
                   </FormGroup>
                 </CardBody>
               </Card>
@@ -213,8 +284,72 @@ const EmployeeForm = (props) => {
               <Card>
                 <CardBody>
                   <CardTitle className="text-primary">
+                    Información de empleado
+                  </CardTitle>
+
+                  <FormGroup>
+                    <Label>
+                      Código de empleado <span className="req">*</span>
+                    </Label>
+                    <Field
+                      className="form-control"
+                      name="code"
+                      value={values.code}
+                    />
+                    {errors.code && touched.code && (
+                      <div className="f_error">{errors.code}</div>
+                    )}
+                  </FormGroup>
+
+                  <FormGroup>
+                    <Label>
+                      Cargo <span className="req">*</span>
+                    </Label>
+                    <Field
+                      as="select"
+                      name="role"
+                      className="form-control"
+                      value={values.role}
+                    >
+                      <option value="">-- Seleccione una opción --</option>
+                      <option value="Administrativo">Administrativo</option>
+                      <option value="Analista">Analista</option>
+                      <option value="Jefe de operaciones">
+                        Jefe de operaciones
+                      </option>
+                      <option value="Coordinador logístico">
+                        Coordinador logístico{' '}
+                      </option>
+                      <option value="Supervisor">Supervisor</option>
+                      <option value="Líder de punto">Líder de punto</option>
+                      <option value="Operario">Operario</option>
+                    </Field>
+                    {errors.role && touched.role && (
+                      <div className="f_error">{errors.role}</div>
+                    )}
+                  </FormGroup>
+                </CardBody>
+              </Card>
+              <br />
+              <Card>
+                <CardBody>
+                  <CardTitle className="text-primary">
                     Informacion de la cuenta
                   </CardTitle>
+
+                  <FormGroup>
+                    <Label>
+                      Email <span className="req">*</span>
+                    </Label>
+                    <Field
+                      className="form-control"
+                      name="email"
+                      value={values.email}
+                    />
+                    {errors.email && touched.email && (
+                      <div className="f_error">{errors.email}</div>
+                    )}
+                  </FormGroup>
 
                   <FormGroup>
                     <Label>
@@ -241,95 +376,45 @@ const EmployeeForm = (props) => {
                       value={values.password}
                       autoComplete="off"
                     />
-                    {errors.password && touched.password ? (
+                    {errors.password && touched.password && (
                       <div className="f_error">{errors.password}</div>
-                    ) : null}
-                  </FormGroup>
-
-                  <FormGroup>
-                    <Label>
-                      Cargo <span className="req">*</span>
-                    </Label>
-                    <Field
-                      as="select"
-                      className="form-control"
-                      name="role"
-                      value={values.role}
-                    >
-                      <option value="">-- Seleccione una opción --</option>
-                      <option value="Administrativo">Administrativo</option>
-                      <option value="Analista">Analista</option>
-                      <option value="Jefe de operaciones">
-                        Jefe de operaciones
-                      </option>
-                      <option value="Coordinador logístico">
-                        Coordinador logístico{' '}
-                      </option>
-                      <option value="Supervisor">Supervisor</option>
-                      <option value="Líder de punto">Líder de punto</option>
-                      <option value="Operario">Operario</option>
-                    </Field>
-                    {errors.role && touched.role && (
-                      <div className="f_error">{errors.role}</div>
                     )}
                   </FormGroup>
+
+                  {errorCredentials && (
+                    <div className="alert alert-info">
+                      Para generar el usuario y la contraseña primero debes
+                      ingresar el código, nombre, apellidos y número de
+                      documento del empleado.
+                    </div>
+                  )}
 
                   <div className="text-right">
                     <Button
                       outline
                       type="button"
                       color="dark"
-                      // onClick={this.generateCredentials}
+                      onClick={() => generateCredentials(values, setFieldValue)}
                       // disabled={loading}
                     >
                       Generar credenciales
                     </Button>
                   </div>
-                </CardBody>
-              </Card>
-              <br />
-              <Card>
-                <CardBody>
-                  <CardTitle className="text-primary">
-                    Datos de contacto
-                  </CardTitle>
 
                   <FormGroup>
-                    <Label>
-                      Email <span className="req">*</span>
-                    </Label>
-                    <Field
-                      className="form-control"
-                      name="email"
-                      value={values.email}
-                    />
-                    {errors.email && touched.email && (
-                      <div className="f_error">{errors.email}</div>
-                    )}
-                  </FormGroup>
-
-                  <FormGroup>
-                    <Label>Teléfono</Label>
-                    <Field
-                      className="form-control"
-                      name="phone"
-                      value={values.phone}
-                    />
-                    {errors.phone && touched.phone && (
-                      <div className="f_error">{errors.phone}</div>
-                    )}
-                  </FormGroup>
-
-                  <FormGroup>
-                    <Label>Dirección</Label>
-                    <Field
-                      className="form-control"
-                      name="address"
-                      value={values.address}
-                    />
-                    {errors.address && touched.address ? (
-                      <div className="f_error">{errors.address}</div>
-                    ) : null}
+                    <h6 className="mb-4 text-primary">Estado de la cuenta</h6>
+                    <div className="d-flex">
+                      <Switch
+                        className="custom-switch custom-switch-primary-inverse"
+                        checked={Boolean(values.active)}
+                        onChange={(value) => setFieldValue('active', value)}
+                      />
+                      {Boolean(values.active) ? (
+                        <p className="mt-1 text-primary ml-2">ACTIVO</p>
+                      ) : (
+                        <p className="mt-1 text-muted ml-2">INACTIVO</p>
+                      )}
+                    </div>
                   </FormGroup>
                 </CardBody>
               </Card>

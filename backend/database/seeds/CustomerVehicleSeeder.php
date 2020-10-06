@@ -22,7 +22,8 @@ class CustomerVehicleSeeder extends Seeder
         $customerQuantity = 20;
 
         $customerFake = User::create([
-            'name' => 'Juan Pablo Salazar Restrepo',
+            'firstname' => 'Juan Pablo',
+            'lastname' => 'Salazar Restrepo',
             'document_type' => 'CC',
             'document_number' => '1061701570',
             'phone' => '3105160145',

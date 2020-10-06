@@ -26,7 +26,8 @@ class User extends Authenticatable
     protected $fillable = [
         'code',
         'photo',
-        'name',
+        'firstname',
+        'lastname',
         'gender',
         'birthdate',
         'document_type',
@@ -42,7 +43,7 @@ class User extends Authenticatable
     ];
 
     protected $filters = [
-        'code', 'name', 'document_number', 'email', 'role'
+        'code', 'firstname', 'lastname', 'document_number', 'email', 'role'
     ];
 
     /**
@@ -67,7 +68,8 @@ class User extends Authenticatable
     {
         $rules = [
             'code' => $user ? 'unique:users,code,' . $user->id : 'required|unique:users',
-            'name' => 'required',
+            'firstname' => 'required',
+            'lastname' => 'required',
             'document_type' => 'required',
             'document_number' => $user ? 'required|unique:employees,document_number,' . $user->id : 'required|unique:employees',
             'username' => $user ? 'unique:users,username,' . $user->id : 'unique:users',

@@ -153,7 +153,7 @@ class TopNav extends Component {
             <UncontrolledDropdown className="dropdown-menu-right">
               <DropdownToggle className="d-flex p-0" color="empty">
                 <div className="name text-right mr-3">
-                  <div>{this.props.user.name}</div>
+                  <div>{this.props.user.firstname}</div>
                   <div className="text-primary">{this.props.user.role}</div>
                 </div>
                 <span>

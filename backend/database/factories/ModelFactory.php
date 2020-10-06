@@ -29,7 +29,8 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'code' => Str::random(10),
         'photo' => NULL,
-        'name' => $gender == 'Hombre' ? $extendfaker->generate_name_men() . ' ' . $extendfaker->generate_lastname() : $extendfaker->generate_name_woman() . ' ' . $extendfaker->generate_lastname(),
+        'firstname' => $gender == 'Hombre' ? $extendfaker->generate_name_men() : $extendfaker->generate_name_woman(),
+        'lastname' => $extendfaker->generate_lastname(),
         'gender' => $gender,
         'birthdate' => date('Y-m-d', $timeStampRange),
         'document_type' => $faker->randomElement(['CC', 'CE', 'TI']),

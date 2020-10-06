@@ -43,7 +43,8 @@ class LoginController extends Controller
 
         return response()->json([
             'user' => [
-                'name' => $user->name,
+                'firstname' => $user->firstname,
+                'lastname' => $user->lastname,
                 'role' => $user->role,
                 'photo' => $user->photo,
             ],
@@ -69,7 +70,8 @@ class LoginController extends Controller
         $user = $request->user();
         return response()->json([
             'user' => [
-                'name' => $user->name,
+                'firstname' => $user->firstname,
+                'lastname' => $user->lastname,
                 'role' => $user->role,
                 'photo' => $user->photo,
             ],
