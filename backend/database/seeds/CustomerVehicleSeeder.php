@@ -19,7 +19,7 @@ class CustomerVehicleSeeder extends Seeder
         Vehicle::truncate();
         DB::table('user_vehicle')->truncate();
 
-        $customerQuantity = 20;
+        $customerQuantity = 0;
 
         $customerFake = User::create([
             'firstname' => 'Juan Pablo',

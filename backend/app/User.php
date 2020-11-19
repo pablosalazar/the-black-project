@@ -71,7 +71,7 @@ class User extends Authenticatable
             'firstname' => 'required',
             'lastname' => 'required',
             'document_type' => 'required',
-            'document_number' => $user ? 'required|unique:employees,document_number,' . $user->id : 'required|unique:employees',
+            'document_number' => $user ? 'required|unique:users,document_number,' . $user->id : 'required|unique:users',
             'username' => $user ? 'unique:users,username,' . $user->id : 'unique:users',
             'email' => $user ? 'email|unique:users,email,' . $user->id : 'email|unique:users',
             'password' => 'sometimes|required|min:6',

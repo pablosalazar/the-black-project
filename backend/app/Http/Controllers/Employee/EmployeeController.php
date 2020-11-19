@@ -40,7 +40,7 @@ class EmployeeController extends ApiController
             $this->savePhoto($employee, $request->file('photo'));
         }
 
-        return $this->showOne($employee, 201);
+        return $this->showOne($employee, "Empleado guardado con exito", 201);
     }
 
     /**
@@ -55,7 +55,7 @@ class EmployeeController extends ApiController
         return $employee;
     }
 
-     /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -72,17 +72,17 @@ class EmployeeController extends ApiController
         if ($employee->isDirty() || $request->file('photo')) {
             if ($request->file('photo')) {
 
-                $currentPhoto = glob(public_path('img/employees/'). $employee->document_number .  '-' . '*');
-    
+                $currentPhoto = glob(public_path('img/employees/') . $employee->document_number .  '-' . '*');
+
                 $savePhotoSuccess = $this->savePhoto($employee, $request->file('photo'));
-    
-                if($savePhotoSuccess){
+
+                if ($savePhotoSuccess) {
                     $this->deleteCurrentPhoto($employee, $currentPhoto);
-                }else{
+                } else {
                     return $this->errorResponse('No se pudo actualizar la foto del usuario, por favor intente más tarde', 422);
                 }
             }
-    
+
             $employee->save();
         }
 
@@ -116,7 +116,7 @@ class EmployeeController extends ApiController
         $image = Image::make($file)->widen(300)->encode('jpg', 75);
         $imageSaved = $image->save(public_path('img/employees/') . $filename);
 
-        if($imageSaved->filename){
+        if ($imageSaved->filename) {
             $employee->photo = $filename;
             $employee->save();
             return true;
@@ -133,7 +133,7 @@ class EmployeeController extends ApiController
      */
     private function deleteCurrentPhoto($employee, $currentPhoto)
     {
-        if($currentPhoto){
+        if ($currentPhoto) {
             if (File::exists($currentPhoto[0])) {
                 unlink($currentPhoto[0]);
             }

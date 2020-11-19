@@ -24,12 +24,12 @@ const setupAxios = (store) => {
     },
     function (error) {
       if (error.response) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem('access_token');
           window.location.href = '/';
-        }
-
-        if (error.response.data) {
+        } else if (error.response.status === 422) {
+          return Promise.reject(error);
+        } else if (error.response.data) {
           store.dispatch(setErrorMessageApp(error.response.data.error));
         }
       }

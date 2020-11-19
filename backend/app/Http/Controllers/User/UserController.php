@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\User;
 
 use Carbon\Carbon;
@@ -14,19 +15,19 @@ use App\Http\Controllers\ApiController;
 class UserController extends ApiController
 {
     /**
-    * @OA\Get(
-    *     path="/api/users",
-    *     summary="Mostrar usuarios",
-    *     @OA\Response(
-    *         response=200,
-    *         description="Mostrar todos los usuarios."
-    *     ),
-    *     @OA\Response(
-    *         response="default",
-    *         description="Ha ocurrido un error."
-    *     )
-    * )
-    */
+     * @OA\Get(
+     *     path="/api/users",
+     *     summary="Mostrar usuarios",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Mostrar todos los usuarios."
+     *     ),
+     *     @OA\Response(
+     *         response="default",
+     *         description="Ha ocurrido un error."
+     *     )
+     * )
+     */
 
     /**
      * Display a listing of the resource.
@@ -35,7 +36,7 @@ class UserController extends ApiController
      */
     public function index(Request $request)
     {
-        $users = User::with('employee')->get();
+        $users = User::all();
 
         return $this->showAll($users);
     }
@@ -49,6 +50,7 @@ class UserController extends ApiController
      */
     public function store(Request $request)
     {
+
         User::validate($request);
 
         $fields = $request->all();
@@ -56,7 +58,7 @@ class UserController extends ApiController
 
         $user = User::create($fields);
 
-        return $this->showOne($user, 201);
+        return $this->showOne($user, "Usuario guardado con éxito", 201);
     }
 
     /**
@@ -93,7 +95,7 @@ class UserController extends ApiController
         if ($user->isDirty()) {
             $user->save();
         }
-        
+
         return $this->showOne($user);
     }
 
@@ -111,7 +113,7 @@ class UserController extends ApiController
     }
 
 
-    private function savePicture($user, $file) 
+    private function savePicture($user, $file)
     {
         $filename = $user->document_number .  '-' . time() .  ".jpg";
         $image = Image::make($file)->widen(300)->encode('jpg', 75);
@@ -119,6 +121,4 @@ class UserController extends ApiController
         $user->image = $filename;
         $user->save();
     }
-
-
 }

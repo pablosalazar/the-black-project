@@ -15,7 +15,7 @@ class EmployeeUserSeeder extends Seeder
      */
     public function run()
     {
-        $quantity = 10;
+        $quantity = 0;
 
         Schema::disableForeignKeyConstraints();
         User::truncate();

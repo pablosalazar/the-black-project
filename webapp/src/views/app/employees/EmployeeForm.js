@@ -40,24 +40,25 @@ const CreateSchema = Yup.object().shape({
 });
 
 const UpdateSchema = Yup.object().shape({
-  // name: Yup.string()
-  //   .min(2, 'Demasiado corto!')
-  //   .max(50, 'Demasiado Largo!')
-  //   .required('Este campo es obligatorio'),
-  // role: Yup.string().required('Este campo es obligatorio'),
-  // document_type: Yup.string().required('Este campo es obligatorio'),
-  // document_number: Yup.number()
-  //   .typeError('Ingresa solo números')
-  //   .required('Este campo es obligatorio'),
-  // birthdate: Yup.date(),
-  // email: Yup.string()
-  //   .required('Este campo es obligatorio')
-  //   .email('Escribe un email válido'),
+  name: Yup.string()
+    .min(2, 'Demasiado corto!')
+    .max(50, 'Demasiado Largo!')
+    .required('Este campo es obligatorio'),
+  role: Yup.string().required('Este campo es obligatorio'),
+  document_type: Yup.string().required('Este campo es obligatorio'),
+  document_number: Yup.number()
+    .typeError('Ingresa solo números')
+    .required('Este campo es obligatorio'),
+  birthdate: Yup.date(),
+  email: Yup.string()
+    .required('Este campo es obligatorio')
+    .email('Escribe un email válido'),
 });
 
 const EmployeeForm = (props) => {
   const { employee } = props;
   const [errorCredentials, setErrorCredentiales] = useState(false);
+  const [error, setError] = useState(null);
   const isUpdate = employee ? true : false;
 
   const initialData = {
@@ -79,16 +80,26 @@ const EmployeeForm = (props) => {
     active: true,
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit = async (values) => {
-    console.log(values);
-    // try {
-    //   await createEmployee(values);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    setError(null);
+    try {
+      setIsLoading(true);
+      await createEmployee(values);
+      history.push(`/app/empleados/lista`);
+    } catch (error) {
+      let errors = Object.values(error.response.data.error);
+      errors = errors.map((error) => error[0]);
+      window.scrollTo(0, 0);
+      setError(errors);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const generateCredentials = (data, setFieldValue) => {
+    setErrorCredentiales(null);
     const { firstname, lastname, document_number, code } = data;
     let first_firstname, second_firstname, first_lastname, second_lastname;
     if (!firstname || !lastname || !document_number || !code) {
@@ -128,10 +139,21 @@ const EmployeeForm = (props) => {
     >
       {({ handleSubmit, setFieldValue, values, errors, touched }) => (
         <Form className="av-tooltip tooltip-label-right">
+          {isLoading && <div className="loading"></div>}
           <p className="text-right">
             Los campos marcados con (<span className="req">*</span>) son
             obligatorios
           </p>
+          {error && (
+            <div className="alert alert-warning">
+              <p>Corrige los siguientes conflictos:</p>
+              <ul>
+                {error.map((error, index) => {
+                  return <li key={index}>{error}</li>;
+                })}
+              </ul>
+            </div>
+          )}
           <Row>
             <div className="col-md-4">
               <Card>

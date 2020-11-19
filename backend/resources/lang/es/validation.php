@@ -82,7 +82,7 @@ return [
     ],
     'string'               => 'El campo :attribute debe ser una cadena de caracteres.',
     'timezone'             => 'El :attribute debe ser una zona válida.',
-    'unique'               => ':attribute ya ha sido registrado.',
+    'unique'               => 'El :attribute ya ha sido registrado.',
     'uploaded'             => 'Subir :attribute ha fallado.',
     'url'                  => 'El formato :attribute es inválido.',
 
@@ -116,6 +116,9 @@ return [
 
     'attributes'           => [
         'name'                  => 'nombre',
+        'firstname'             => 'nombre',
+        'lastname'              => 'apellidos',
+        'role'                  => 'cargo',
         'username'              => 'usuario',
         'email'                 => 'correo electrónico',
         'first_name'            => 'nombre',
