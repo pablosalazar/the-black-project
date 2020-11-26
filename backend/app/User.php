@@ -46,6 +46,8 @@ class User extends Authenticatable
         'code', 'firstname', 'lastname', 'document_number', 'email', 'role'
     ];
 
+    protected $appends = ['fullname'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -96,9 +98,19 @@ class User extends Authenticatable
         return $this->belongsToMany(Vehicle::class);
     }
 
-    public function setNameAttribute($value)
+    public function getFullnameAttribute()
     {
-        $this->attributes['name'] = mb_convert_case($value, MB_CASE_TITLE, "UTF-8");
+        return "{$this->firstname} {$this->lastname}";
+    }
+
+    public function setFirstnameAttribute($value)
+    {
+        $this->attributes['firstname'] = mb_convert_case($value, MB_CASE_TITLE, "UTF-8");
+    }
+
+    public function setlastnameAttribute($value)
+    {
+        $this->attributes['lastname'] = mb_convert_case($value, MB_CASE_TITLE, "UTF-8");
     }
 
     public function setBirthdayAttribute($value)

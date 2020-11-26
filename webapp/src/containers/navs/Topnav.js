@@ -160,7 +160,7 @@ class TopNav extends Component {
                   <Avatar
                     size="40"
                     maxInitials={2}
-                    name={this.props.user.name}
+                    name={this.props.user.fullname}
                     round={true}
                   />
                 </span>

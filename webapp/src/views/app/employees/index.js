@@ -1,7 +1,9 @@
 import React, { Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-const EmployeesList = React.lazy(() => import('./EmployeesList.js'));
+const EmployeesList = React.lazy(() =>
+  import('./employees-list/EmployeesList.js')
+);
 const EmployeeDetail = React.lazy(() => import('./EmployeeDetail.js'));
 
 const Employee = ({ match }) => (

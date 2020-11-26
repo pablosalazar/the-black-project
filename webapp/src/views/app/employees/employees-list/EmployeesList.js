@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Card, CardBody, CardTitle } from 'reactstrap';
-import { Colxx, Separator } from '../../../components/common/CustomBootstrap';
-import Breadcrumb from '../../../containers/navs/Breadcrumb';
+import {
+  Colxx,
+  Separator,
+} from '../../../../components/common/CustomBootstrap';
+import Breadcrumb from '../../../../containers/navs/Breadcrumb';
 import { NavLink } from 'react-router-dom';
-// import Datatable from '../../../../../components/common/datatable/Datatable';
+import Datatable from '../../../../components/common/datatable/Datatable';
 
-import { getEmployees } from '../../../api/employee.api';
-// import cols from './columns';
+import { getEmployees } from '../../../../api/employee.api';
+import cols from './Columns';
 
 function EmployeesList(props) {
   const [employees, setEmployees] = useState(null);
@@ -20,34 +23,37 @@ function EmployeesList(props) {
     orderBy: 'id',
     order: 'asc',
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   const result = await getUsers({ ...paginator }, search);
-    //   setUsers(result.data.data);
-    //   setTotalRows(result.data.total);
-    // };
-    // fetchData();
+    const fetchData = async () => {
+      const result = await getEmployees({ ...paginator }, search);
+      setEmployees(result.data.data.data);
+      setTotalRows(result.data.data.total);
+      setIsLoading(false);
+    };
+    fetchData();
   }, [paginator]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getUsers(
+      const result = await getEmployees(
         {
           ...paginator,
           page: 0,
         },
         search
       );
-      setUsers(result.data.data);
-      setTotalRows(result.data.total);
-      setTotalFilteredRows(result.data.filteredTotal);
+      setEmployees(result.data.data.data);
+      setTotalFilteredRows(result.data.data.total);
+      setIsLoading(false);
     };
 
-    // fetchData();
+    fetchData();
   }, [search]);
 
   function handlePageChange(page) {
+    setIsLoading(true);
     setPaginator({
       ...paginator,
       page: page,
@@ -82,7 +88,7 @@ function EmployeesList(props) {
     props.history.push(`usuario/${id}`);
   }
 
-  // if (!users) return <div className="loading" />;
+  if (!employees) return <div className="loading" />;
 
   return (
     <>
@@ -94,8 +100,6 @@ function EmployeesList(props) {
       </Row>
       <Row>
         <Colxx xxs="12" className="mb-4">
-          {/* <Card>
-            <CardBody> */}
           <CardTitle>
             <h2 className="text-uppercase">Lista de usuarios</h2>
           </CardTitle>
@@ -125,25 +129,24 @@ function EmployeesList(props) {
               </span>
             )}
           </p>
-          {/* <Datatable
-                columns={cols}
-                data={users}
-                pageCount={
-                  search.length
-                    ? Math.ceil(totalFilteredRows / paginator.pageSize)
-                    : Math.ceil(totalRows / paginator.pageSize)
-                }
-                defaultPageSize={paginator.pageSize}
-                currentPage={paginator.page}
-                startSortBy={paginator.orderBy}
-                onSortChange={handleSortChange}
-                onPageChange={handlePageChange}
-                onPageSizeChange={handlePageSizeChange}
-                goToDetailPage={(id) => goToDetailPage(id)}
-                divided
-              /> */}
-          {/* </CardBody>
-          </Card> */}
+          {isLoading && <div className="loading" />}
+          <Datatable
+            columns={cols}
+            data={employees}
+            pageCount={
+              search.length
+                ? Math.ceil(totalFilteredRows / paginator.pageSize)
+                : Math.ceil(totalRows / paginator.pageSize)
+            }
+            defaultPageSize={paginator.pageSize}
+            currentPage={paginator.page}
+            startSortBy={paginator.orderBy}
+            onSortChange={handleSortChange}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
+            goToDetailPage={(id) => goToDetailPage(id)}
+            divided
+          />
         </Colxx>
       </Row>
     </>

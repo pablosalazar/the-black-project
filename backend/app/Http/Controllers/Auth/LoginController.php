@@ -43,6 +43,7 @@ class LoginController extends Controller
 
         return response()->json([
             'user' => [
+                'fullname' => $user->fullname,
                 'firstname' => $user->firstname,
                 'lastname' => $user->lastname,
                 'role' => $user->role,

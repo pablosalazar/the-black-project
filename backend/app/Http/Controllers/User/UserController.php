@@ -37,7 +37,6 @@ class UserController extends ApiController
     public function index(Request $request)
     {
         $users = User::all();
-
         return $this->showAll($users);
     }
 
@@ -69,8 +68,7 @@ class UserController extends ApiController
      */
     public function show($id)
     {
-        $user = User::with('employee')->findOrFail($id);
-
+        $user = User::findOrFail($id);
         return $this->showOne($user);
     }
 

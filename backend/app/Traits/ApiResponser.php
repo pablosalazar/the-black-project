@@ -21,13 +21,13 @@ trait ApiResponser
         return response()->json(['error' => $message, 'code' => $code], $code);
     }
 
-    protected function showAll(Collection $collection, $code = 200, $message = "")
+    protected function showAll(Collection $collection, $message = "", $code = 200)
     {
         $collection = $this->filterData($collection);
         $collection = $this->sortData($collection);
         $collection = $this->paginate($collection);
 
-        return $this->successResponse($collection, $code, $message);
+        return $this->successResponse($collection, $message, $code);
     }
 
     protected function showOne(Model $instance, $message = "", $code = 200)
@@ -76,6 +76,7 @@ trait ApiResponser
         $rules = [
             'pageSize' => 'integer|min:2|max:50'
         ];
+
         Validator::validate(request()->all(), $rules);
 
         $page = LengthAwarePaginator::resolveCurrentPage();
