@@ -80,6 +80,8 @@ const EmployeeForm = (props) => {
     active: true,
   };
 
+  const data = isUpdate ? employee : initialData;
+
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (values) => {
@@ -133,7 +135,7 @@ const EmployeeForm = (props) => {
 
   return (
     <Formik
-      initialValues={initialData}
+      initialValues={data}
       validationSchema={isUpdate ? UpdateSchema : CreateSchema}
       onSubmit={onSubmit}
     >
