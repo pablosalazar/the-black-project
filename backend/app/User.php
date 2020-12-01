@@ -43,7 +43,7 @@ class User extends Authenticatable
     ];
 
     protected $filters = [
-        'code', 'firstname', 'lastname', 'document_number', 'email', 'role'
+        'code', 'fullname', 'firstname', 'lastname', 'document_number', 'email', 'role'
     ];
 
     protected $appends = ['fullname'];

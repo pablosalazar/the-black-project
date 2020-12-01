@@ -62,6 +62,7 @@ function EmployeesList(props) {
 
   function handleSortChange(data) {
     if (data.length) {
+      setIsLoading(true);
       setPaginator({
         ...paginator,
         orderBy: data[0].id,
@@ -71,6 +72,7 @@ function EmployeesList(props) {
   }
 
   function handlePageSizeChange(size) {
+    setIsLoading(true);
     setPaginator({
       ...paginator,
       page: 0,
@@ -80,6 +82,7 @@ function EmployeesList(props) {
 
   function handleOnSearchKey(e) {
     if (e.key === 'Enter') {
+      setIsLoading(true);
       setSearch(e.target.value.toLowerCase());
     }
   }
