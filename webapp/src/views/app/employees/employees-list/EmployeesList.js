@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Card, CardBody, CardTitle } from 'reactstrap';
+import { Row, CardTitle } from 'reactstrap';
 import {
   Colxx,
   Separator,

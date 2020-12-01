@@ -4,7 +4,9 @@ export const USER_URL = `${BASE_URL}/users`;
 
 export function getEmployees(paginate, search) {
   return axios.get(
-    `${USER_URL}?page=${paginate.page}&pageSize=${paginate.pageSize}&orderBy=${paginate.orderBy}&order=${paginate.order}&search=${search}`
+    `${USER_URL}?page=${paginate.page + 1}&pageSize=${
+      paginate.pageSize
+    }&orderBy=${paginate.orderBy}&order=${paginate.order}&search=${search}`
   );
 }
 

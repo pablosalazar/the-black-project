@@ -49,6 +49,8 @@
   tr {
     td,
     th {
+      padding-top: 20px;
+      padding-bottom: 16px;
       border: initial;
     }
 
@@ -59,6 +61,7 @@
 
   tbody {
     tr {
+      transition: 0.3s;
       td {
         border-bottom: 1px solid $separator-color-light;
       }
@@ -68,6 +71,11 @@
       td {
         border-bottom: initial;
       }
+    }
+
+    tr:hover {
+      color: $theme-color-1;
+      cursor: pointer;
     }
   }
 }
@@ -150,10 +158,16 @@
 .order-with-arrow {
   thead {
     th {
-      text-transform: uppercase;
-      color: $theme-color-1;
-
+      padding-top: 0.6em;
+      padding-bottom: 0.6em;
       border: initial;
+      &.sorted-asc {
+        box-shadow: initial !important;
+      }
+
+      &.sorted-desc {
+        box-shadow: initial !important;
+      }
     }
 
     .sortable,
@@ -175,7 +189,6 @@
     .sorted-asc_disabled:after,
     .sorted-desc_disabled:before,
     .sorted-desc_disabled:after {
-      font-size: 20px;
       position: absolute;
       top: 0.4em;
       display: block;
@@ -184,7 +197,6 @@
     .sorted-asc:before,
     .sorted-desc:after {
       opacity: 1;
-      color: $theme-color-1;
     }
 
     .sortable:before,
@@ -221,26 +233,6 @@
       &:last-child {
         border-top-right-radius: $border-radius-rounded;
         border-bottom-right-radius: $border-radius-rounded;
-      }
-    }
-  }
-}
-.rtl {
-  .rounded {
-    .table-divided {
-      &table {
-        td {
-          border-radius: initial;
-          &:first-child {
-            border-top-right-radius: $border-radius-rounded;
-            border-bottom-right-radius: $border-radius-rounded;
-          }
-
-          &:last-child {
-            border-top-left-radius: $border-radius-rounded;
-            border-bottom-left-radius: $border-radius-rounded;
-          }
-        }
       }
     }
   }
