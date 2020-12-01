@@ -1,9 +1,12 @@
 import React from 'react';
 import { Row } from 'reactstrap';
-import { Colxx, Separator } from '../../../components/common/CustomBootstrap';
-import Breadcrumb from '../../../containers/navs/Breadcrumb';
+import {
+  Colxx,
+  Separator,
+} from '../../../../components/common/CustomBootstrap';
+import Breadcrumb from '../../../../containers/navs/Breadcrumb';
 
-import EmployeeForm from './EmployeeForm';
+import EmployeeForm from '../../../../containers/forms/EmployeeForm';
 
 const EmployeeDetail = (props) => {
   return (

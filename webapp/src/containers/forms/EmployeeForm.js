@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Switch from 'rc-switch';
 import 'rc-switch/assets/index.css';
 import {
@@ -17,7 +17,7 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { createEmployee } from '../../../api/employee.api';
+import { createEmployee } from '../../api/employee.api';
 
 const CreateSchema = Yup.object().shape({
   firstname: Yup.string().required('Este campo es obligatorio'),

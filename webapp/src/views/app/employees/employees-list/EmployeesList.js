@@ -88,7 +88,7 @@ function EmployeesList(props) {
   }
 
   function goToDetailPage(id) {
-    props.history.push(`usuario/${id}`);
+    props.history.push(`detalle/${id}`);
   }
 
   if (!employees) return <div className="loading" />;

@@ -4,7 +4,9 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 const EmployeesList = React.lazy(() =>
   import('./employees-list/EmployeesList.js')
 );
-const EmployeeDetail = React.lazy(() => import('./EmployeeDetail.js'));
+const EmployeeDetail = React.lazy(() =>
+  import('./employees-detail/EmployeeDetail.js')
+);
 
 const Employee = ({ match }) => (
   <Suspense fallback={<div className="loading" />}>
@@ -18,6 +20,12 @@ const Employee = ({ match }) => (
         path={`${match.url}/nuevo`}
         render={(props) => <EmployeeDetail {...props} />}
       />
+
+      <Route
+        path={`${match.url}/detalle/:id`}
+        render={(props) => <EmployeeDetail {...props} />}
+      />
+
       <Redirect to="/error" />
     </Switch>
   </Suspense>
