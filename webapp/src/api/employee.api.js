@@ -17,3 +17,7 @@ export function getEmployeeById(id) {
 export function createEmployee(user) {
   return axios.post(`${EMPLOYEE_URL}`, user);
 }
+
+export function updateEmployee(id, data) {
+  return axios.put(`${EMPLOYEE_URL}/${id}`, data);
+}

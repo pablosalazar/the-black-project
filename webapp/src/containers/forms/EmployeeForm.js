@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import Switch from 'rc-switch';
 import 'rc-switch/assets/index.css';
 import {
@@ -16,8 +16,9 @@ import * as Yup from 'yup';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { NotificationManager } from '../../components/common/react-notifications';
 
-import { createEmployee } from '../../api/employee.api';
+import { createEmployee, updateEmployee } from '../../api/employee.api';
 
 const CreateSchema = Yup.object().shape({
   firstname: Yup.string().required('Este campo es obligatorio'),
@@ -40,10 +41,8 @@ const CreateSchema = Yup.object().shape({
 });
 
 const UpdateSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, 'Demasiado corto!')
-    .max(50, 'Demasiado Largo!')
-    .required('Este campo es obligatorio'),
+  firstname: Yup.string().required('Este campo es obligatorio'),
+  lastname: Yup.string().required('Este campo es obligatorio'),
   role: Yup.string().required('Este campo es obligatorio'),
   document_type: Yup.string().required('Este campo es obligatorio'),
   document_number: Yup.number()
@@ -59,6 +58,7 @@ const EmployeeForm = (props) => {
   const { employee } = props;
   const [errorCredentials, setErrorCredentiales] = useState(false);
   const [error, setError] = useState(null);
+  const history = useHistory();
   const isUpdate = employee ? true : false;
 
   const initialData = {
@@ -86,11 +86,28 @@ const EmployeeForm = (props) => {
 
   const onSubmit = async (values) => {
     setError(null);
+
     try {
       setIsLoading(true);
-      await createEmployee(values);
-      history.push(`/app/empleados/lista`);
+      if (isUpdate) {
+        if (JSON.stringify(data) !== JSON.stringify(values)) {
+          await updateEmployee(employee.id, values);
+        } else {
+          NotificationManager.info(
+            'Debes cambiar al menos un valor para guardar',
+            'INFO',
+            4000,
+            null,
+            null,
+            ''
+          );
+        }
+      } else {
+        await createEmployee(values);
+        history.push(`/app/empleados/lista`);
+      }
     } catch (error) {
+      console.log('entre');
       let errors = Object.values(error.response.data.error);
       errors = errors.map((error) => error[0]);
       window.scrollTo(0, 0);
@@ -139,7 +156,7 @@ const EmployeeForm = (props) => {
       validationSchema={isUpdate ? UpdateSchema : CreateSchema}
       onSubmit={onSubmit}
     >
-      {({ handleSubmit, setFieldValue, values, errors, touched }) => (
+      {({ setFieldValue, values, errors, touched }) => (
         <Form className="av-tooltip tooltip-label-right">
           {isLoading && <div className="loading"></div>}
           <p className="text-right">
@@ -157,7 +174,7 @@ const EmployeeForm = (props) => {
             </div>
           )}
           <Row>
-            <div className="col-md-4">
+            <div className="col-md-4 mb-3">
               <Card>
                 <CardBody>
                   <CardTitle className="text-primary">
@@ -304,8 +321,8 @@ const EmployeeForm = (props) => {
               </Card>
             </div>
 
-            <div className="col-md-4">
-              <Card>
+            <div className="col-md-4 mb-3">
+              <Card className="mb-3">
                 <CardBody>
                   <CardTitle className="text-primary">
                     Información de empleado
@@ -354,11 +371,11 @@ const EmployeeForm = (props) => {
                   </FormGroup>
                 </CardBody>
               </Card>
-              <br />
+
               <Card>
                 <CardBody>
                   <CardTitle className="text-primary">
-                    Informacion de la cuenta
+                    Información de la cuenta
                   </CardTitle>
 
                   <FormGroup>
@@ -443,7 +460,8 @@ const EmployeeForm = (props) => {
                 </CardBody>
               </Card>
             </div>
-            <div className="col-md-4">
+
+            <div className="col-md-4 mb-3">
               <Card>
                 <CardBody>
                   <CardTitle className="text-primary">
@@ -492,6 +510,7 @@ const EmployeeForm = (props) => {
               </Card>
             </div>
           </Row>
+
           <div className="text-right mt-3">
             <NavLink to={'/app/empleados/lista'} className="btn btn-light mr-2">
               Cancelar

@@ -35,7 +35,7 @@ class EmployeeUserSeeder extends Seeder
             'username'  => 'admin',
             'email'  => 'admin@theblackps.com',
             'password'  => bcrypt('secret'),
-            'role'  => 'Administrador',
+            'role'  => 'Administrativo',
             'active'  => User::ACTIVE_USER,
         ]);
 
