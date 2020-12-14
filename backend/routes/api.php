@@ -35,7 +35,7 @@ Route::resource('customers.vehicles', 'Customer\CustomerVehicleController', ['on
 /**
  * Contacts
  */
-// Route::resource('contacts', 'Contact\ContactController', ['except' => ['create', 'edit']]);
+Route::resource('contacts', 'Contact\ContactController', ['except' => ['create', 'edit']]);
 
 /**
  * Vehicles
