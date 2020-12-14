@@ -27,7 +27,7 @@ class EmployeeUserSeeder extends Seeder
             'lastname' => 'Salazar Restrepo',
             'gender' => 'Hombre',
             'birthdate' => '2000-01-01',
-            'document_type' => 'CC',
+            'document_type' => 'C.C',
             'document_number' => '1000000',
             'nacionality' => 'Colombiana',
             'phone' => '3104160145',

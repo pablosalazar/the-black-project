@@ -33,7 +33,7 @@ $factory->define(User::class, function (Faker $faker) {
         'lastname' => $extendfaker->generate_lastname(),
         'gender' => $gender,
         'birthdate' => date('Y-m-d', $timeStampRange),
-        'document_type' => $faker->randomElement(['CC', 'CE', 'TI']),
+        'document_type' => $faker->randomElement(['C.C', 'C.E', 'T.I']),
         'document_number' => $faker->unique()->passthrough(mt_rand(1000000, 9999999)),
         'nacionality' => $faker->randomElement(['Colombiana', 'Venezolana', 'Peruana', 'Ecuatoriana']),
         'phone' => $faker->PhoneNumber,
@@ -52,7 +52,7 @@ $factory->define(Customer::class, function (Faker $faker) {
         'name' => $faker->name,
         'phone' => $faker->PhoneNumber,
         'document_number' => $faker->unique()->numberBetween($min = 10000000, $max = 90000000),
-        'document_type' => $faker->randomElement(['CC', 'CE', 'TI']),
+        'document_type' => $faker->randomElement(['C.C', 'C.E', 'T.I']),
     ];
 });
 
